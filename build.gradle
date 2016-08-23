@@ -31,7 +31,7 @@ dependencies {
 	compile			('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile			('org.springframework.boot:spring-boot-starter-web')
 	compile 		('mysql:mysql-connector-java')
-	compile group: 'net.sf.dozer', name: 'dozer', version: '5.4.0'
+	compile 		('net.sf.dozer:dozer:5.5.1')
 	
 	testRuntime		('org.hsqldb:hsqldb:2.3.1')
 	testCompile		('org.springframework.boot:spring-boot-starter-test')
