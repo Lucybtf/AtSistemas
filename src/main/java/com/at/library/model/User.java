@@ -25,7 +25,8 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statususer;
 	
-	@OneToMany
+	/* Establecemos una relación bidireccional con usuario*/
+	@OneToMany(mappedBy="user")
 	private List<Rent> rent;
 
 	public String getDni() {
