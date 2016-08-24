@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -18,10 +21,11 @@ public class Rent {
 	@GeneratedValue
 	private Integer rentid;
 	
-	@OneToOne
+	@ManyToOne
 	private Employee empl;
 	
-	@OneToOne
+	@ManyToOne(fetch= FetchType.LAZY)
+	@JoinColumn(name="userid")
 	private User user;
 	
 	@Temporal(TemporalType.DATE)
