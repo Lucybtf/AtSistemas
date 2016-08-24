@@ -26,10 +26,13 @@ public class Employee {
 	private StatusEnum statusEmployee;
 	
 	@OneToMany
-	private List<Rent> rent;
-	
+	private List<Rent> rents;
+
 	@OneToMany
 	private List<Book> books;
+	
+	@OneToMany
+	private List<User> users;
 
 	public String getDni() {
 		return dni;
@@ -71,12 +74,12 @@ public class Employee {
 		this.statusEmployee = statusEmployee;
 	}
 
-	public List<Rent> getRent() {
-		return rent;
+	public List<Rent> getRents() {
+		return rents;
 	}
 
-	public void setRent(List<Rent> rent) {
-		this.rent = rent;
+	public void setRents(List<Rent> rents) {
+		this.rents = rents;
 	}
 
 	public List<Book> getBooks() {
@@ -86,5 +89,14 @@ public class Employee {
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
 	
 }
