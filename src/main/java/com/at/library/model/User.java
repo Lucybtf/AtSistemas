@@ -1,19 +1,26 @@
 package com.at.library.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.at.library.enums.StatusEnum;
 
 @Entity
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -2566233689006100494L;
 
 	@Id
+	@GeneratedValue
+	private Integer id;
+	
 	private String dni;
 	
 	private String name;
@@ -25,8 +32,17 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statususer;
 	
-	@OneToMany
+	/* Establecemos una relación bidireccional con usuario*/
+	@OneToMany(mappedBy="user")
 	private List<Rent> rent;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getDni() {
 		return dni;
@@ -76,7 +92,6 @@ public class User {
 		this.rent = rent;
 	}
 
-	
-	
+
 	
 }

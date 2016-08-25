@@ -1,57 +1,45 @@
 package com.at.library.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Room {
+public class Room implements Serializable {
+
+	private static final long serialVersionUID = -3565187692259408958L;
 
 	@Id
-	@GeneratedValue
-	private Integer roomid;
+	private String code;
 	
-	private String roomplace;
 	
-	private Integer roomnumber;
+	@OneToMany(fetch = FetchType.LAZY)//, mappedBy="room")
+	private List<Bookshelf> bookshelfs = new ArrayList<>() ;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public List<Bookshelf> getBookshelfs() {
+		return bookshelfs;
+	}
+
+	public void setBookshelfs(List<Bookshelf> bookshelfs) {
+		this.bookshelfs = bookshelfs;
+	}
 	
-	@OneToMany
-	private List<Shelf> shelfs;
+	
 
-	public Integer getRoomid() {
-		return roomid;
-	}
-
-	public void setRoomid(Integer roomid) {
-		this.roomid = roomid;
-	}
-
-	public String getRoomplace() {
-		return roomplace;
-	}
-
-	public void setRoomplace(String roomplace) {
-		this.roomplace = roomplace;
-	}
-
-	public Integer getRoomnumber() {
-		return roomnumber;
-	}
-
-	public void setRoomnumber(Integer roomnumber) {
-		this.roomnumber = roomnumber;
-	}
-
-	public List<Shelf> getShelfs() {
-		return shelfs;
-	}
-
-	public void setShelfs(List<Shelf> shelfs) {
-		this.shelfs = shelfs;
-	}
 	
 	
 }

@@ -1,19 +1,26 @@
 package com.at.library.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.at.library.enums.StatusEnum;
 
 @Entity
-public class Employee {
+public class Employee implements Serializable {
 	
+	private static final long serialVersionUID = -6404545191979506671L;
+
 	@Id
+	@GeneratedValue
+	private Integer id;
+	
 	private String dni;
 	
 	private String name;
@@ -24,12 +31,14 @@ public class Employee {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statusEmployee;
-	
-	@OneToMany
-	private List<Rent> rent;
-	
-	@OneToMany
-	private List<Book> books;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getDni() {
 		return dni;
@@ -69,22 +78,6 @@ public class Employee {
 
 	public void setStatusEmployee(StatusEnum statusEmployee) {
 		this.statusEmployee = statusEmployee;
-	}
-
-	public List<Rent> getRent() {
-		return rent;
-	}
-
-	public void setRent(List<Rent> rent) {
-		this.rent = rent;
-	}
-
-	public List<Book> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<Book> books) {
-		this.books = books;
 	}
 	
 }
