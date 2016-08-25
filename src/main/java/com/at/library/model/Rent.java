@@ -1,8 +1,10 @@
 package com.at.library.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,41 +15,36 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Rent {
+public class Rent implements Serializable {
 
-	@Id
-	@GeneratedValue
-	private Integer rentid;
+	private static final long serialVersionUID = 7835850664567352801L;
+
+	@EmbeddedId
+	RentPK rentpk;
 	
 	@ManyToOne
-	private Employee empl;
+	private Employee employee;
 	
 	@ManyToOne
 	private User user;
 	
-	@Temporal(TemporalType.DATE)
-	private Date startDate;
-	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
-		
-	@OneToMany
-	private List<Book> books;
 
-	public Integer getRentid() {
-		return rentid;
+	public RentPK getRentpk() {
+		return rentpk;
 	}
 
-	public void setRentid(Integer rentid) {
-		this.rentid = rentid;
+	public void setRentpk(RentPK rentpk) {
+		this.rentpk = rentpk;
 	}
 
-	public Employee getEmpl() {
-		return empl;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setEmpl(Employee empl) {
-		this.empl = empl;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	public User getUser() {
@@ -58,14 +55,6 @@ public class Rent {
 		this.user = user;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -74,12 +63,23 @@ public class Rent {
 		this.endDate = endDate;
 	}
 
-	public List<Book> getBooks() {
-		return books;
+	/*Propios get/set de los parámetros del RentPK*/
+	public Book getBook() {
+		return rentpk.getBook();
 	}
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	public void setBook(Book book) {
+		this.rentpk.setBook(book);
 	}
+
+	public Date getInit() {
+		return rentpk.getInit();
+	}
+
+	public void setInit(Date init) {
+		this.rentpk.setInit(init);
+	}
+	
+
 	
 }

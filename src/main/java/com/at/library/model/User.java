@@ -1,26 +1,39 @@
 package com.at.library.model;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.at.library.enums.StatusEnum;
 
 @Entity
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -2566233689006100494L;
+
+	private static final boolean True = false;
 
 	@Id
+	@GeneratedValue
+	private Integer id;
+	
 	private String dni;
 	
 	private String name;
 	
-	private String surname1;
+	private String surname;
 	
-	private String surname2;
+	private String phone;
+	
+	@Column(unique=True)
+	private String email;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statususer;
@@ -28,6 +41,14 @@ public class User {
 	/* Establecemos una relación bidireccional con usuario*/
 	@OneToMany(mappedBy="user")
 	private List<Rent> rent;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getDni() {
 		return dni;
@@ -45,20 +66,28 @@ public class User {
 		this.name = name;
 	}
 
-	public String getSurname1() {
-		return surname1;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setSurname1(String surname1) {
-		this.surname1 = surname1;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
-	public String getSurname2() {
-		return surname2;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setSurname2(String surname2) {
-		this.surname2 = surname2;
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public StatusEnum getStatususer() {
@@ -76,8 +105,5 @@ public class User {
 	public void setRent(List<Rent> rent) {
 		this.rent = rent;
 	}
-
-	
-	
 	
 }
