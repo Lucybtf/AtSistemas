@@ -18,7 +18,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = -2566233689006100494L;
 
-	private static final boolean True = false;
+
 
 	@Id
 	@GeneratedValue
@@ -32,7 +32,7 @@ public class User implements Serializable {
 	
 	private String phone;
 	
-	@Column(unique=True)
+	//@Column(unique=True)
 	private String email;
 	
 	@Enumerated(EnumType.STRING)

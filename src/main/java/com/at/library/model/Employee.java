@@ -13,8 +13,10 @@ import javax.persistence.OneToMany;
 import com.at.library.enums.StatusEnum;
 
 @Entity
-public class Employee {
+public class Employee implements Serializable {
 	
+	private static final long serialVersionUID = -6404545191979506671L;
+
 	@Id
 	@GeneratedValue
 	private Integer id;

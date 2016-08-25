@@ -17,14 +17,17 @@ public class Bookshelf implements Serializable {
 
 	private static final long serialVersionUID = 6694728324797188102L;
 
+
 	@Id
-	private String code;	
+	private String code;
+	
 	
 	@OneToMany(fetch=FetchType.LAZY )
 	private List<Book> books;
 	
 	@OneToOne
 	private Room room;
+
 
 	public String getCodeshelf() {
 		return code;
@@ -45,4 +48,6 @@ public class Bookshelf implements Serializable {
 		this.books = books;
 	}
 
+
+	
 }
