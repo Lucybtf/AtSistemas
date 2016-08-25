@@ -16,6 +16,7 @@ import com.at.library.dto.BookDTO;
 import com.at.library.service.book.BookService;
 
 @RestController
+@RequestMapping(value = "/book")
 public class BookController {
 	
 	@Autowired
@@ -23,21 +24,22 @@ public class BookController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
-	@RequestMapping(value = "/book", method = { RequestMethod.GET })
+	@RequestMapping( method = { RequestMethod.GET })
 	public List<BookDTO> getAll() {
 		log.debug("Buscando todos los libros del sistemA");
 		return bookservice.findAll();
 	}
 	
+	
 	//Crear
 	@RequestMapping( method = { RequestMethod.POST })
 	public BookDTO create(@RequestBody BookDTO book) {
 		log.debug(String.format("Vamos a crear el libro siguiente", book));
-	//	bookservice.
 		return bookservice.create(book) ;
 	}
+	
 	//Recuperar
-	@RequestMapping(value="/{id}" , method = { RequestMethod.GET })
+	@RequestMapping(value="/{id}" , method = {RequestMethod.GET} )
 	public BookDTO findOne(@PathVariable("id")Integer id){
 		log.debug(String.format("Buscando el libro con el id %s", id));
 		return bookservice.findbyId(id);
