@@ -47,4 +47,10 @@ public class BookDTO implements Serializable {
 		this.author = author;
 	}
 
+	@Override
+	public String toString() {
+		return "BookDTO [id=" + id + ", title=" + title + "]";
+	}
+
+	
 }
