@@ -18,8 +18,6 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = -2566233689006100494L;
 
-
-
 	@Id
 	@GeneratedValue
 	private Integer id;
