@@ -31,6 +31,9 @@ public class Employee implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statusEmployee;
+	
+	@OneToMany
+	private List<User> users;
 
 	public Integer getId() {
 		return id;
