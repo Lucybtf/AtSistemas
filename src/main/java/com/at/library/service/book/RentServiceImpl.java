@@ -23,7 +23,8 @@ public class RentServiceImpl implements RentService {
 	}
 	
 	@Override
-	public void delete(RentDTO rentDto){
+	public void delete(Integer idrent) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -33,6 +34,8 @@ public class RentServiceImpl implements RentService {
 		return null;
 		
 	}
+
+	
 
 
 }

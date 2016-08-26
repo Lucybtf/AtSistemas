@@ -11,15 +11,17 @@ public interface RentService {
 	RentDTO create(RentDTO rentDto);
 
 	/**
-	 * Crea un alquiler
+	 * Borrar un alquiler dado un id
 	 * @return Devuelve un RentDTO
 	 */
-	void delete(RentDTO rentDto);
+	void delete(Integer idrent);
 
 	/**
 	 * Devuelve un alquiler: Coloca la fecha de devolución y el libro vuelve a estar disponible
 	 * @return Devuelve un RentDTO
 	 */
 	RentDTO checkout();
+
+	
 
 }
