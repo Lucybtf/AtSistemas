@@ -85,6 +85,7 @@ public class BookServiceImpl implements BookService {
 	public void disableBook(Integer id) {
 		// TODO Auto-generated method stub
 		final Book b = transform(findbyId(id));
+		//Comprobar que un libro no este alquilado por un usuario (¿?)
 		if(b.getStatus() == com.at.library.enums.StatusEnum.ACTIVE){
 			b.setStatus(com.at.library.enums.StatusEnum.DISABLE);
 		}
