@@ -61,12 +61,12 @@ public class BookController {
 	
 	
 	@RequestMapping( method = { RequestMethod.PUT })
-	public void activeBook(Integer id){
+	public void activeBook(@PathVariable("id")Integer id){
 		bookservice.activeBook(id);
 	}
 	
 	@RequestMapping( method = { RequestMethod.PUT })
-	public void disableBook(Integer id){
+	public void disableBook(@PathVariable("id")Integer id){
 		bookservice.disableBook(id);
 	}
 	
