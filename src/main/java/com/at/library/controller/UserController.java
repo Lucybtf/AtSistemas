@@ -36,12 +36,12 @@ public class UserController {
 	
 	
 	@RequestMapping( method = { RequestMethod.PUT })
-	public void activeUser(Integer id){
+	public void activeUser(@PathVariable("id")Integer id){
 		userService.activeUser(id);
 	}
 	
 	@RequestMapping( method = { RequestMethod.PUT })
-	public void disableUser(Integer id){
+	public void disableUser(@PathVariable("id")Integer id){
 		userService.disableUser(id);
 	}
 	
