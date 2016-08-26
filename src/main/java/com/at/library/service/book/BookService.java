@@ -31,22 +31,23 @@ public interface BookService {
 	Book transform(BookDTO book);
 
 	/**
-	 * Crear un libroDTO 
+	 *  Crear un libroDTO 
+	 *  @return Devuelve un BookDTO
 	 * */
 	
 	BookDTO create(BookDTO book);
 
 	/**
 	 * Borrar un libroDTO 
+	 * 
 	 * */
 	void delete(Integer id);
 
 
 	/**
-	 * Actualizar un libroDTO 
+	 * Actualiza un libroDTO 
 	 * */
 	void update(BookDTO book);
-
 
 	/**
 	 * Encontrar un libro por Id
@@ -55,6 +56,7 @@ public interface BookService {
 	
 	/**
 	 * Activar un libro dado un Id
+	 *
 	 * */
 	void activeBook(Integer id);
 	
