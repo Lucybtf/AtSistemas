@@ -92,7 +92,7 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public boolean checkAvailability(){
+	public boolean checkAvailability(Integer id){
 		return true;
 	}
 }

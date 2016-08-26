@@ -65,6 +65,9 @@ public interface BookService {
 	 * */
 	void disableBook(Integer id);
 
-	boolean checkAvailability();
+	/**
+	 *  Comprobar la disponibilidad de un libro
+	 * */
+	boolean checkAvailability(Integer id);
 
 }
