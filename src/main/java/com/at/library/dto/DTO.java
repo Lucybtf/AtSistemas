@@ -1,6 +1,6 @@
 package com.at.library.dto;
 
-/*Sirve para crear metodos comunes a mis DTOs */
+/* Para que no se nos olvide crear DTOs */
 public  abstract class DTO {
 	
 	public abstract String toString();

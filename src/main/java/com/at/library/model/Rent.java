@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Rent implements Serializable {
@@ -27,6 +28,9 @@ public class Rent implements Serializable {
 	
 	@ManyToOne
 	private User user;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date initDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
@@ -64,18 +68,22 @@ public class Rent implements Serializable {
 	}
 
 	/*Propios get/set de los parámetros del RentPK*/
+	@Transient
 	public Book getBook() {
 		return rentpk.getBook();
 	}
 
+	@Transient
 	public void setBook(Book book) {
 		this.rentpk.setBook(book);
 	}
 
+	@Transient
 	public Date getInit() {
 		return rentpk.getInit();
 	}
 
+	@Transient
 	public void setInit(Date init) {
 		this.rentpk.setInit(init);
 	}
