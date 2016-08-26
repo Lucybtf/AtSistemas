@@ -16,48 +16,38 @@ public class RentDTO implements Serializable {
 
 	private static final long serialVersionUID = 7364756623634860483L;
 	
-	RentPK rentpk;
+	//RentPK rentpk;
 	
-	private Employee employee;
+	private Integer idLibro;
 	
-	private User user;
+	private Integer idEmployee;
 	
-	private Date endDate;
+	private Integer idUser;
 
-	public RentPK getRentpk() {
-		return rentpk;
+	public Integer getIdLibro() {
+		return idLibro;
 	}
 
-	public void setRentpk(RentPK rentpk) {
-		this.rentpk = rentpk;
+	public void setIdLibro(Integer idLibro) {
+		this.idLibro = idLibro;
 	}
 
-	public Employee getEmployee() {
-		return employee;
+	public Integer getIdEmployee() {
+		return idEmployee;
 	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setIdEmployee(Integer idEmployee) {
+		this.idEmployee = idEmployee;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getIdUser() {
+		return idUser;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
 	}
 	
-	
-	
-	
-
+	//Cogemos por defecto la del servidor
+	//private Date endDate;
 }
