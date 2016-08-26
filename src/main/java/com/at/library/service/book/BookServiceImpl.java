@@ -90,4 +90,9 @@ public class BookServiceImpl implements BookService {
 			b.setStatus(com.at.library.enums.StatusEnum.DISABLE);
 		}
 	}
+	
+	@Override
+	public boolean checkAvailability(){
+		return true;
+	}
 }
