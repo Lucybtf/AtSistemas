@@ -34,6 +34,7 @@ public class UserController {
 		userService.delete(user);
 	}
 	
+	
 	@RequestMapping( method = { RequestMethod.PUT })
 	public void activeUser(Integer id){
 		userService.activeUser(id);
@@ -43,5 +44,6 @@ public class UserController {
 	public void disableUser(Integer id){
 		userService.disableUser(id);
 	}
+	
 
 }
