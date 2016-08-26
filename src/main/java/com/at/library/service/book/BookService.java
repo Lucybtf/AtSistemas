@@ -65,4 +65,6 @@ public interface BookService {
 	 * */
 	void disableBook(Integer id);
 
+	boolean checkAvailability();
+
 }
