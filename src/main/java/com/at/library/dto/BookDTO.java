@@ -3,7 +3,7 @@ package com.at.library.dto;
 
 import java.io.Serializable;
 
-public class BookDTO implements Serializable {
+public class BookDTO extends DTO {
 
 	private static final long serialVersionUID = 1583585532736761521L;
 
