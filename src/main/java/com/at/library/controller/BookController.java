@@ -39,7 +39,7 @@ public class BookController {
 	}
 	
 	//Recuperar
-	@RequestMapping(value="/{id}" , method = {RequestMethod.GET} )
+	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
 	public BookDTO findOne(@PathVariable("id")Integer id){
 		log.debug(String.format("Buscando el libro con el id %s", id));
 		return bookservice.findbyId(id);
@@ -58,5 +58,17 @@ public class BookController {
 		log.debug(String.format("Vamos a borrar un libro dado un id %s", id));
 		bookservice.delete(id);
 	}
+	
+	
+	@RequestMapping( method = { RequestMethod.PUT })
+	public void activeBook(Integer id){
+		bookservice.activeBook(id);
+	}
+	
+	@RequestMapping( method = { RequestMethod.PUT })
+	public void disableBook(Integer id){
+		bookservice.disableBook(id);
+	}
+	
 	
 }
