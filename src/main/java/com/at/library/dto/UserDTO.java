@@ -24,7 +24,6 @@ public class UserDTO implements Serializable {
 	
 	private String email;
 	
-	/* ¿Habría que añadir la lista de alquileres de la asociación al DTO?*/
 
 	public Integer getId() {
 		return id;
