@@ -52,5 +52,15 @@ public interface BookService {
 	 * Encontrar un libro por Id
 	 * */
 	BookDTO findbyId(Integer id);
+	
+	/**
+	 * Activar un libro dado un Id
+	 * */
+	void activeBook(Integer id);
+	
+	/**
+	 *  Desactivar un libro dado un Id
+	 * */
+	void disableBook(Integer id);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.model.Book;
+import com.at.library.model.User;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -68,5 +69,24 @@ public class BookServiceImpl implements BookService {
 		final Book b=bookDao.findOne(id);
 		return transform(b);
 		
+	}
+	
+	
+	@Override
+	public void activeBook(Integer id) {
+		// TODO Auto-generated method stub
+		final Book b = transform(findbyId(id));
+		if(b.getStatus() == com.at.library.enums.StatusEnum.DISABLE){
+			b.setStatus(com.at.library.enums.StatusEnum.ACTIVE);
+		}	
+	}
+
+	@Override
+	public void disableBook(Integer id) {
+		// TODO Auto-generated method stub
+		final Book b = transform(findbyId(id));
+		if(b.getStatus() == com.at.library.enums.StatusEnum.ACTIVE){
+			b.setStatus(com.at.library.enums.StatusEnum.DISABLE);
+		}
 	}
 }
