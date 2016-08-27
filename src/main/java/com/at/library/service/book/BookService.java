@@ -32,6 +32,7 @@ public interface BookService {
 
 	/**
 	 *  Crear un libroDTO 
+	 *  @param book
 	 *  @return Devuelve un BookDTO
 	 * */
 	
@@ -39,35 +40,39 @@ public interface BookService {
 
 	/**
 	 * Borrar un libroDTO 
-	 * 
+	 * @param id
 	 * */
 	void delete(Integer id);
 
-
 	/**
-	 * Actualiza un libroDTO 
+	 * Actualiza un libroDTO
+	 * @param book 
 	 * */
 	void update(BookDTO book);
 
 	/**
 	 * Encontrar un libro por Id
+	 * @param id
 	 * @return Devuelve el BookDTO cuya id es igual a la que se la ha pasado como parámetro
 	 * */
 	BookDTO findbyId(Integer id);
 	
 	/**
 	 * Activar un libro dado un Id
-	 *
+	 * @param id
 	 * */
 	void activeBook(Integer id);
 	
 	/**
 	 *  Desactivar un libro dado un Id
+	 * @param id
 	 * */
 	void disableBook(Integer id);
 
 	/**
 	 *  Comprobar la disponibilidad de un libro
+	 *  @param id
+	 *  @return Devuelve si esta disponible o no un libro
 	 * */
 	boolean checkAvailability(Integer id);
 
