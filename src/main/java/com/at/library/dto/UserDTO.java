@@ -26,7 +26,16 @@ public class UserDTO implements Serializable {
 	
 	private String email;
 	
+	private StatusEnum statusUser;
 
+
+	public StatusEnum getStatusUser() {
+		return statusUser;
+	}
+
+	public void setStatusUser(StatusEnum statusUser) {
+		this.statusUser = statusUser;
+	}
 
 	public Integer getId() {
 		return id;
