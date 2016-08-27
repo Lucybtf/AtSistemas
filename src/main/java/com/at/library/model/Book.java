@@ -82,10 +82,5 @@ public class Book implements Serializable {
 		this.startDate = startDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", title=" + title + "]";
-	}
-
 	
 }
