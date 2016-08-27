@@ -109,6 +109,13 @@ public class BookServiceImpl implements BookService {
 	
 	@Override
 	public boolean checkAvailability(Integer id){
+		//BUscamos el Libro por la Id
+		final BookDTO b=findbyId(id);
+		//Comprobamos que el Libro este Activo
+		if(b.getStatusBook()==StatusEnum.ACTIVE){
+			
+		}
+		//Comprobamos que el Libro no este Alquilado AUN NO SE COMO
 		return true;
 	}
 }
