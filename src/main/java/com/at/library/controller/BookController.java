@@ -59,14 +59,15 @@ public class BookController {
 		bookservice.delete(id);
 	}
 	
-	
-	@RequestMapping( method = { RequestMethod.PUT })
+	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
 	public void activeBook(@PathVariable("id")Integer id){
+		log.debug(String.format("Activar el libro dado la siguiente id: %s", id));
 		bookservice.activeBook(id);
 	}
 	
-	@RequestMapping( method = { RequestMethod.PUT })
+	@RequestMapping( value="/disable/{id}", method = { RequestMethod.PUT })
 	public void disableBook(@PathVariable("id")Integer id){
+		log.debug(String.format("Desactivar el libro dado la siguiente id: %s", id));
 		bookservice.disableBook(id);
 	}
 	

@@ -51,6 +51,7 @@ public interface BookService {
 
 	/**
 	 * Encontrar un libro por Id
+	 * @return Devuelve el BookDTO cuya id es igual a la que se la ha pasado como parámetro
 	 * */
 	BookDTO findbyId(Integer id);
 	
