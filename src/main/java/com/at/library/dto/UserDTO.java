@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.at.library.enums.StatusEnum;
+
 public class UserDTO implements Serializable {
 
 
