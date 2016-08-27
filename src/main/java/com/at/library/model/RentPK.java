@@ -17,7 +17,7 @@ public class RentPK implements Serializable {
 	private Book book;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date init;
+	private Date initDate;
 
 	public Book getBook() {
 		return book;
@@ -27,12 +27,12 @@ public class RentPK implements Serializable {
 		this.book = book;
 	}
 
-	public Date getInit() {
-		return init;
+	public Date getInitDate() {
+		return initDate;
 	}
 
-	public void setInit(Date init) {
-		this.init = init;
+	public void setInitDate(Date init) {
+		this.initDate = init;
 	}
 	
 	
