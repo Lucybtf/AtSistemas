@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
+import com.at.library.enums.StatusEnum;
 import com.at.library.model.Book;
 import com.at.library.model.User;
 
@@ -76,9 +77,17 @@ public class BookServiceImpl implements BookService {
 	public void activeBook(Integer id) {
 		// TODO Auto-generated method stub
 		final Book b = transform(findbyId(id));
-		if(b.getStatus() == com.at.library.enums.StatusEnum.DISABLE){
-			b.setStatus(com.at.library.enums.StatusEnum.ACTIVE);
-		}	
+		//Comprobar que un libro no este alquilado por un usuario (¿?)
+		if(b.getStatus()== null){
+			b.setStatus(StatusEnum.ACTIVE);
+		}
+		else{
+			if(b.getStatus() == StatusEnum.DISABLE){
+				b.setStatus(StatusEnum.ACTIVE);
+			}	
+			
+		}
+		bookDao.save(b);
 	}
 
 	@Override
@@ -86,9 +95,16 @@ public class BookServiceImpl implements BookService {
 		// TODO Auto-generated method stub
 		final Book b = transform(findbyId(id));
 		//Comprobar que un libro no este alquilado por un usuario (¿?)
-		if(b.getStatus() == com.at.library.enums.StatusEnum.ACTIVE){
-			b.setStatus(com.at.library.enums.StatusEnum.DISABLE);
+		if(b.getStatus()== null){
+			b.setStatus(StatusEnum.DISABLE);
 		}
+		else{
+			if(b.getStatus() == StatusEnum.ACTIVE){
+				b.setStatus(StatusEnum.DISABLE);
+			}	
+			
+		}
+		bookDao.save(b);
 	}
 	
 	@Override
