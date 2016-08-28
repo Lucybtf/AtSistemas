@@ -1,9 +1,17 @@
 package com.at.library.service.rent;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.at.library.controller.RentController;
 import com.at.library.dao.BookDao;
 import com.at.library.dao.RentDao;
 import com.at.library.dto.BookDTO;
@@ -22,6 +30,7 @@ import com.at.library.service.user.UserService;
 @Service
 public class RentServiceImpl implements RentService {
 	
+	private static final Logger log = LoggerFactory.getLogger(RentServiceImpl.class);
 	//Necesito guardar en el modelo de la Base de datos el Rent que creo
 	@Autowired
 	private RentDao rentDao;
@@ -56,20 +65,24 @@ public class RentServiceImpl implements RentService {
 	 * */
 	@Override
 	public RentDTO create(RentDTO rentDto){
-	//	final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
-	//	final UserDTO user = userService.findbyId(rentDto.getIdUser());
-	//	final BookDTO book = bookService.findbyId(rentDto.getIdBook());
-		final RentDTO rent = new RentDTO();
-		Rent rent2;
-		RentPK PK;
+		//Obtenemos los DTOs de Employee, UserDTO y BookDTO
+		//PENDIENTE: Comprobar que el Usuario exista, que el Empleado exista y que el BookExista y no este Alquilado
+		final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
+		final UserDTO user = userService.findbyId(rentDto.getIdUser());
+		final BookDTO book = bookService.findbyId(rentDto.getIdBook());
 		
-		//PK.setBook(rentDto.getIdBook());
-		rent.setIdEmployee(rentDto.getIdEmployee());
-		rent.setIdUser(rentDto.getIdUser());
-		rent.setIdBook(rentDto.getIdBook());
-		Rent rentfinal = transform(rent);
-		//final Rent rent=transform(rentDto);
-		return transform(rentDao.save(rentfinal));	
+		//Creamos un objeto Rent
+		Rent r = new Rent();
+		r.setBook(bookService.transform(book)); //Le asigno el BookDTO tranformado a Book
+		r.setEmployee(employeeService.transform(employee)); //Le asigno el EmployeeDTO transformado a Employee
+		r.setUser(userService.transform(user)); // Le asigno el UserDTO transformado a User
+		r.setInitDate(new Date()); //Cojo la Fecha del Servidor
+		r.setEndDate(null); //Inicializo a Null porque no se ha devuelto
+		
+		
+		//final Rent rentend=rentDao.save(r); 
+		//Resumo en una línea guardo el objeto r creado y lo tranformo a RentDTO que es lo que devuelve la función
+		return transform(rentDao.save(r));
 	}
 	
 	@Override
@@ -88,6 +101,14 @@ public class RentServiceImpl implements RentService {
 		return dozer.map(rent, Rent.class);
 	}
 
+
+
+	//@Override
+//	public RentDTO findbyBookAndDate(BookDTO book, Date init) {
+		// TODO Auto-generated method stub
+	//	return transform(rentDao.findByBookAndDate(bookService.findbyId(book.getId()), init));
+	//}
+
 	
 	//Devolución de un libro
 //	@Override
@@ -104,13 +125,8 @@ public class RentServiceImpl implements RentService {
 		
 	}*/
 
-	@Override
-	public RentDTO findbyId(Integer id) {
-		// TODO Auto-generated method stub
-		return transform(rentDao.findOne(id));
-	}
-
 	
 
 
+	
 }
