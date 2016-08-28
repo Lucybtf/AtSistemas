@@ -34,16 +34,8 @@ public interface RentService {
 
 	RentDTO transform(Rent rent);
 
-//	void rentBook(Integer id);
+
+	void returnBook(Integer idlibro);
 
 
-//	RentDTO findbyId(BookDTO b, Date init);
-
-	//RentDTO findbyDate(Date init);
-
-	
-
-//	RentDTO findbyBookAndDate(BookDTO book, Date init);
-
-	
 }

@@ -18,6 +18,7 @@ import com.at.library.dto.BookDTO;
 import com.at.library.dto.EmployeeDTO;
 import com.at.library.dto.RentDTO;
 import com.at.library.dto.UserDTO;
+import com.at.library.enums.StatusEnum;
 import com.at.library.model.Book;
 import com.at.library.model.Employee;
 import com.at.library.model.Rent;
@@ -79,8 +80,6 @@ public class RentServiceImpl implements RentService {
 		r.setInitDate(new Date()); //Cojo la Fecha del Servidor
 		r.setEndDate(null); //Inicializo a Null porque no se ha devuelto
 		
-		
-		//final Rent rentend=rentDao.save(r); 
 		//Resumo en una línea guardo el objeto r creado y lo tranformo a RentDTO que es lo que devuelve la función
 		return transform(rentDao.save(r));
 	}
@@ -88,6 +87,16 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public void delete(Integer idrent) {
 		// TODO Auto-generated method stub
+		//Comprobamos que no este alquilado y que no este activo
+	//	final BookDTO b=bookService.findbyId(idrent);
+		//NO esta alquilado y el estado del libro es active
+		/*if((bookService.checkAvailability(idrent)== true && bookService.transform(b).getStatus()==StatusEnum.ACTIVE) ||
+				//NO esta alquilado y el estado del libro es disable
+		(bookService.checkAvailability(idrent)== true && bookService.transform(b).getStatus()==StatusEnum.DISABLE))
+		{
+			bookService.delete(b.getId());
+		}*/
+		
 	
 	}
 
@@ -102,31 +111,29 @@ public class RentServiceImpl implements RentService {
 	}
 
 
-
-	//@Override
-//	public RentDTO findbyBookAndDate(BookDTO book, Date init) {
+	//Devolución de un libro : Buscar el Libro, Comprobar que el Libro es del Usuario
+	@Override
+	public void returnBook(Integer idlibro) {
 		// TODO Auto-generated method stub
-	//	return transform(rentDao.findByBookAndDate(bookService.findbyId(book.getId()), init));
-	//}
-
-	
-	//Devolución de un libro
-//	@Override
-/*	public void returnBook(Integer id) {
-		// TODO Auto-generated method stub
+		final RentDTO r = rentDao.findByUserAndBook(idlibro);
+		final Rent rent = new Rent();
+		Integer idbook=r.getIdBook();
+		Integer iduser=r.getIdUser();
+		Integer idemployee= r.getIdEmployee();
 		
-	}*/
-
-	
-	
-/*	@Override
-	public void rentBook(Integer id) {
-		// TODO Auto-generated method stub
+		BookDTO book=bookService.findbyId(idbook);
+		UserDTO user=userService.findbyId(iduser);
+		EmployeeDTO employee=employeeService.findbyId(idemployee);
 		
-	}*/
-
-	
-
-
+		rent.setBook(bookService.transform(book));
+		rent.setUser(userService.transform(user));
+		rent.setEmployee(employeeService.transform(employee));
+	//	rent.setInitDate(init);
+		rent.setEndDate(new Date());
+		//System.out.println(r.toString());
+		//log.debug(String.format("RENT:", r));
+		rentDao.delete(rent);
+		
+	}
 	
 }
