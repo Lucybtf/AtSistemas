@@ -115,26 +115,9 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(b);
 	}
 	
+	
 	@Override
 	public boolean checkAvailability(Integer id){
-		//Buscamos el Libro por la Id
-		final Book b=transform(findbyId(id));
-		//Comprobamos que el Estado del Libro sea null
-		if(b.getStatus() == null){
-			//Devolvemos la lista de BookDTOAlquilados
-			List<BookDTO> rentlist = new ArrayList<>(); 
-			rentlist = bookDao.findunAvailable();
-			
-			System.out.println(rentlist);
-			System.out.println(transform(b));
-			if(rentlist.contains(transform(b))){
-			System.out.println("HOLA");
-				return true;
-			}
-			
-		
-		}
-		//Comprobamos que el Libro no este Alquilado AUN NO SE COMO
-		return false;
+		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.findunAvailable(id)==id))?false:true;
 	}
 }
