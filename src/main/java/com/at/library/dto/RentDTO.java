@@ -18,18 +18,18 @@ public class RentDTO implements Serializable {
 	
 	//RentPK rentpk;
 	
-	private Integer idLibro;
+	private Integer idBook;
 	
 	private Integer idEmployee;
 	
 	private Integer idUser;
 
-	public Integer getIdLibro() {
-		return idLibro;
+	public Integer getIdBook() {
+		return getIdBook();
 	}
 
-	public void setIdLibro(Integer idLibro) {
-		this.idLibro = idLibro;
+	public void setIdBook(Integer idBook) {
+		this.idBook = idBook;
 	}
 
 	public Integer getIdEmployee() {
