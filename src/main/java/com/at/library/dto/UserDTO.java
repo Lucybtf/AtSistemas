@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 import com.at.library.enums.StatusEnum;
 
-public class UserDTO implements Serializable {
+public class UserDTO extends DTO {
 
 
 	private static final long serialVersionUID = 3827455324138571715L;
@@ -84,6 +84,13 @@ public class UserDTO implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", dni=" + dni + ", name=" + name + ", surname=" + surname + ", phone=" + phone
+				+ ", email=" + email + ", statusUser=" + statusUser + "]";
+	}
+	
 	
 	
 }
