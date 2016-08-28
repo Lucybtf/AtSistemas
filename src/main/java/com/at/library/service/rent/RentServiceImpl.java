@@ -88,7 +88,7 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public void delete(Integer idrent) {
 		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
