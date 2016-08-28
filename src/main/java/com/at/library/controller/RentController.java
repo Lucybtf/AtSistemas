@@ -42,22 +42,16 @@ public class RentController {
 		rentService.delete(idrent);
 	}
 	
-	@RequestMapping( value="/{date}", method = { RequestMethod.GET})
+	/*@RequestMapping( value="/{date}", method = { RequestMethod.GET})
 	public RentDTO findDateInit( @RequestBody BookDTO book, @PathVariable("date")Date init){
 		log.debug(String.format("Buscando el Rent  Fecha %s",  init));
 		//return rentService.findbyBookAndDate(book, init);
 		return null;
-	}
-	
-/*	@RequestMapping( value="/{idbook}", method = { RequestMethod.PUT })
-	public void rentBook(@PathVariable("idbook")Integer id){
-		rentService.rentBook(id);
-	}
-	
-
-	@RequestMapping( value="/disable/{id}", method = { RequestMethod.PUT })
-	public void returnBook(@PathVariable("id")Integer id){
-		rentService.returnBook(id);
 	}*/
 	
+	@RequestMapping( value="/{id}", method = { RequestMethod.PUT })
+	public void returnBook(@PathVariable("id")Integer idBook){
+		log.debug(String.format("Buscando el Rent cuyo idBook es  %s",  idBook));
+		rentService.returnBook(idBook);
+	}
 }
