@@ -17,16 +17,23 @@ public class BookDTO extends DTO {
 
 	private String author;
 	
-	private StatusEnum statusBook;
+	//private StatusEnum statusBook;
 
-
-	public StatusEnum getStatusBook() {
-		return statusBook;
+	public BookDTO()
+	{
+		super();
 	}
-
-	public void setStatusBook(StatusEnum statusBook) {
-		this.statusBook = statusBook;
+	
+	public BookDTO(Integer id, String isbn, String title, String author){
+		super();
+		this.id=id;
+		this.isbn=isbn;
+		this.title=title;
+		this.author=author;
 	}
+		
+	
+
 
 	public Integer getId() {
 		return id;
@@ -65,5 +72,12 @@ public class BookDTO extends DTO {
 		return "BookDTO [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author + "]";
 	}
 
+	/*public StatusEnum getStatusBook() {
+		return statusBook;
+	}
+
+	public void setStatusBook(StatusEnum statusBook) {
+		this.statusBook = statusBook;
+	}*/
 	
 }
