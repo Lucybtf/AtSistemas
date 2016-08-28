@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.at.library.controller.BookController;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.enums.StatusEnum;
@@ -18,6 +22,9 @@ import com.at.library.model.User;
 @Service
 public class BookServiceImpl implements BookService {
 
+	private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
+	//private static final org.apache.log4j.Logger logger = LogManager.getLogger("HelloWorld");
+	
 	@Autowired
 	private BookDao bookDao;
 
@@ -50,6 +57,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookDTO create(BookDTO bookDTO){
 		final Book book=transform(bookDTO);
+		//book.setStatus(StatusEnum.DISABLE);
 		return transform(bookDao.save(book));
 	}
 
@@ -109,13 +117,24 @@ public class BookServiceImpl implements BookService {
 	
 	@Override
 	public boolean checkAvailability(Integer id){
-		//BUscamos el Libro por la Id
-		final BookDTO b=findbyId(id);
-		//Comprobamos que el Libro este Activo
-		if(b.getStatusBook()==StatusEnum.ACTIVE){
+		//Buscamos el Libro por la Id
+		final Book b=transform(findbyId(id));
+		//Comprobamos que el Estado del Libro sea null
+		if(b.getStatus() == null){
+			//Devolvemos la lista de BookDTOAlquilados
+			List<BookDTO> rentlist = new ArrayList<>(); 
+			rentlist = bookDao.findunAvailable();
 			
+			System.out.println(rentlist);
+			System.out.println(transform(b));
+			if(rentlist.contains(transform(b))){
+			System.out.println("HOLA");
+				return true;
+			}
+			
+		
 		}
 		//Comprobamos que el Libro no este Alquilado AUN NO SE COMO
-		return true;
+		return false;
 	}
 }
