@@ -11,7 +11,7 @@ import com.at.library.model.Employee;
 import com.at.library.model.RentPK;
 import com.at.library.model.User;
 
-public class RentDTO implements Serializable {
+public class RentDTO extends DTO {
 
 
 	private static final long serialVersionUID = 7364756623634860483L;
@@ -25,7 +25,7 @@ public class RentDTO implements Serializable {
 	private Integer idUser;
 
 	public Integer getIdBook() {
-		return getIdBook();
+		return idBook;
 	}
 
 	public void setIdBook(Integer idBook) {
@@ -47,7 +47,12 @@ public class RentDTO implements Serializable {
 	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "RentDTO [idBook=" + idBook + ", idEmployee=" + idEmployee + ", idUser=" + idUser + "]";
+	}
+
 	//Cogemos por defecto la del servidor
 	//private Date endDate;
 }
