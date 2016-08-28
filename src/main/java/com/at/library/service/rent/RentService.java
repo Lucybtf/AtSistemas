@@ -1,5 +1,8 @@
 package com.at.library.service.rent;
 
+import java.util.Date;
+import java.util.List;
+
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.RentDTO;
 import com.at.library.model.Book;
@@ -33,7 +36,14 @@ public interface RentService {
 
 //	void rentBook(Integer id);
 
-	RentDTO findbyId(Integer id);
+
+//	RentDTO findbyId(BookDTO b, Date init);
+
+	//RentDTO findbyDate(Date init);
+
+	
+
+//	RentDTO findbyBookAndDate(BookDTO book, Date init);
 
 	
 }
