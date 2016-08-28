@@ -71,5 +71,12 @@ public class BookController {
 		bookservice.disableBook(id);
 	}
 	
+	@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
+	public boolean checkAvailability(@PathVariable("id")Integer id){
+		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
+	//	log.debug(String.format("Funcion", bookservice.checkAvailability(id)));
+		return bookservice.checkAvailability(id);
+	}
+	
 	
 }
