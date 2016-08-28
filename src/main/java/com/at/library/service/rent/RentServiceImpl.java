@@ -116,23 +116,27 @@ public class RentServiceImpl implements RentService {
 	public void returnBook(Integer idlibro) {
 		// TODO Auto-generated method stub
 		final RentDTO r = rentDao.findByUserAndBook(idlibro);
+		System.out.println(r.toString());
 		final Rent rent = new Rent();
-		Integer idbook=r.getIdBook();
-		Integer iduser=r.getIdUser();
-		Integer idemployee= r.getIdEmployee();
 		
-		BookDTO book=bookService.findbyId(idbook);
-		UserDTO user=userService.findbyId(iduser);
-		EmployeeDTO employee=employeeService.findbyId(idemployee);
+		Book book=bookService.transform(bookService.findbyId(r.getIdBook()));
+		User user=userService.transform(userService.findbyId(r.getIdUser()));
+		Employee employee=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
 		
-		rent.setBook(bookService.transform(book));
-		rent.setUser(userService.transform(user));
-		rent.setEmployee(employeeService.transform(employee));
-	//	rent.setInitDate(init);
-		rent.setEndDate(new Date());
-		//System.out.println(r.toString());
+		//System.out.println(book.toString());
+		//System.out.println(user.toString());
+		//System.out.println(employee.toString());
+		//System.out.println(r.getInitDate());
+		
+	//	rent.setBook(book);
+		//rent.setBook(bookService.transform(book));
+	//	rent.setUser(userService.transform(user));
+	//	rent.setEmployee(employeeService.transform(employee));
+		//rent.setInitDate(r.getInitDate());
+		//rent.setEndDate(new Date());
+	//	System.out.println(transform(rent).toString());
 		//log.debug(String.format("RENT:", r));
-		rentDao.delete(rent);
+		//rentDao.delete(rent);
 		
 	}
 	

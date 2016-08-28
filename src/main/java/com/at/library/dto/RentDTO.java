@@ -23,16 +23,19 @@ public class RentDTO extends DTO {
 	private Integer idEmployee;
 	
 	private Integer idUser;
+	
+	private Date initDate;
 
 	public RentDTO(){
 		super();
 	}
 	
-	public RentDTO(Integer idBook, Integer idEmployee,Integer idUser){
+	public RentDTO(Integer idBook, Integer idEmployee,Integer idUser, Date initDate){
 		super();
 		this.idBook=idBook;
 		this.idEmployee=idEmployee;
 		this.idUser=idUser;
+		this.initDate=initDate;
 	}
 	public Integer getIdBook() {
 		return idBook;
@@ -61,6 +64,14 @@ public class RentDTO extends DTO {
 	@Override
 	public String toString() {
 		return "RentDTO [idBook=" + idBook + ", idEmployee=" + idEmployee + ", idUser=" + idUser + "]";
+	}
+
+	public Date getInitDate() {
+		return initDate;
+	}
+
+	public void setInitDate(Date initDate) {
+		this.initDate = initDate;
 	}
 
 	//Cogemos por defecto la del servidor
