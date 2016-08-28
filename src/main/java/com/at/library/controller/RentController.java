@@ -25,6 +25,7 @@ public class RentController {
 	@RequestMapping( method = { RequestMethod.GET})
 	public RentDTO create(@RequestBody RentDTO rentDto){
 		log.debug(String.format("Creamos el siguiente Alquiler", rentDto));
+		log.debug(String.format("Alquiler", rentService.create(rentDto)));
 		return rentService.create(rentDto);
 	}
 	
