@@ -24,6 +24,16 @@ public class RentDTO extends DTO {
 	
 	private Integer idUser;
 
+	public RentDTO(){
+		super();
+	}
+	
+	public RentDTO(Integer idBook, Integer idEmployee,Integer idUser){
+		super();
+		this.idBook=idBook;
+		this.idEmployee=idEmployee;
+		this.idUser=idUser;
+	}
 	public Integer getIdBook() {
 		return idBook;
 	}
