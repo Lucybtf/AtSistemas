@@ -61,9 +61,11 @@ public class RentDTO extends DTO {
 		this.idUser = idUser;
 	}
 
+
 	@Override
 	public String toString() {
-		return "RentDTO [idBook=" + idBook + ", idEmployee=" + idEmployee + ", idUser=" + idUser + "]";
+		return "RentDTO [idBook=" + idBook + ", idEmployee=" + idEmployee + ", idUser=" + idUser + ", initDate="
+				+ initDate + "]";
 	}
 
 	public Date getInitDate() {
