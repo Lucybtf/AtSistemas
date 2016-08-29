@@ -80,7 +80,7 @@ public class BookController {
 		return bookservice.checkAvailability(id);
 	}
 	
-	@RequestMapping( value="title/{title}", method = { RequestMethod.GET})
+	@RequestMapping( value="/title/{title}", method = { RequestMethod.GET})
 	public Book findByTitle(@PathVariable("title")String title){
 		log.debug(String.format("Devolver los libros con titulo: %s", title));
 		return bookservice.findByTitle(title);
@@ -92,9 +92,16 @@ public class BookController {
 		return bookservice.findByIsbn(isbn);
 	}
 	
-	@RequestMapping( value="author/{author}", method = { RequestMethod.GET})
+	@RequestMapping( value="/author/{author}", method = { RequestMethod.GET})
 	public Book findByAuthor(@PathVariable("author")String author){
 		log.debug(String.format("Devolver los libros con author: %s", author));
 		return bookservice.findByAuthor(author);
 	}
+	
+	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
+	public List<Book> findBooksAvailable(){
+		log.debug(String.format("Devolvemos todos los libros disponibles"));
+		return bookservice.findBooksAvailable();
+	}
+	
 }
