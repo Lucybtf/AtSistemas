@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.model.Book;
 import com.at.library.service.book.BookService;
 
 @RestController
@@ -26,10 +27,9 @@ public class BookController {
 
 	@RequestMapping( method = { RequestMethod.GET })
 	public List<BookDTO> getAll() {
-		log.debug("Buscando todos los libros del sistemA");
+		log.debug("Buscando todos los libros del sistema");
 		return bookservice.findAll();
 	}
-	
 	
 	//Crear
 	@RequestMapping( method = { RequestMethod.POST })
@@ -59,7 +59,7 @@ public class BookController {
 		bookservice.delete(id);
 	}
 	
-	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
+/*	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
 	public void activeBook(@PathVariable("id")Integer id){
 		log.debug(String.format("Activar el libro dado la siguiente id: %s", id));
 		bookservice.activeBook(id);
@@ -69,14 +69,32 @@ public class BookController {
 	public void disableBook(@PathVariable("id")Integer id){
 		log.debug(String.format("Desactivar el libro dado la siguiente id: %s", id));
 		bookservice.disableBook(id);
-	}
+	}*/
 	
+	/** No me queda claro como poner las url, en el caso de disponibilidad entiendo que solo se usa en el servicio
+	 * pero en el caso de las busquedas ¿como estaría correcta la url?
+	 */
 	@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
 	public boolean checkAvailability(@PathVariable("id")Integer id){
 		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
-	//	log.debug(String.format("Funcion", bookservice.checkAvailability(id)));
 		return bookservice.checkAvailability(id);
 	}
 	
+	@RequestMapping( value="title/{title}", method = { RequestMethod.GET})
+	public Book findByTitle(@PathVariable("title")String title){
+		log.debug(String.format("Devolver los libros con titulo: %s", title));
+		return bookservice.findByTitle(title);
+	}
 	
+	@RequestMapping( value="/isbn/{isbn}", method = { RequestMethod.GET})
+	public Book findByIsbn(@PathVariable("isbn")String isbn){
+		log.debug(String.format("Devolver los libros con isbn: %s", isbn));
+		return bookservice.findByIsbn(isbn);
+	}
+	
+	@RequestMapping( value="author/{author}", method = { RequestMethod.GET})
+	public Book findByAuthor(@PathVariable("author")String author){
+		log.debug(String.format("Devolver los libros con author: %s", author));
+		return bookservice.findByAuthor(author);
+	}
 }
