@@ -26,39 +26,38 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	/*FUNCIONA PERFECTAMENTE*/
+	
 	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
 	public UserDTO findOne(@PathVariable("id")Integer id){
 		log.debug(String.format("Buscando el Usuario con el id %s", id));
-		log.debug(String.format("Buscando:", userService.findbyId(id)));
 		return userService.findbyId(id);
 	}
 	
-	/*FUNCIONA PERFECTAMENTE*/
+	
 	@RequestMapping( method = { RequestMethod.POST })
 	public UserDTO create(@RequestBody UserDTO user) {
 		log.debug(String.format("Vamos a crear el libro siguiente", user));
 		return userService.create(user);
 	}
 	
-	/*FUNCIONA PERFECTAMENTE*/
+
 	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
 	public void delete(@PathVariable("id") Integer user) {
 		log.debug("Borrar un usuario  del sistema dado su id: %s", user);
 		userService.delete(user);
 	}
 	
-	/*FUNCIONA PERFECTAMENTE: pero no se pinta en el JSON*/
-	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
+	/*ACTIVE Y DISABLE VA EN EL SERVICIO PERO NO EN EL CONTROLADOR*/
+	/*@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
 	public void activeUser(@PathVariable("id")Integer id){
 		userService.activeUser(id);
 	}
 	
-	/*FUNCIONA PERFECTAMENTE: pero no se pinta en el JSON*/
+	
 	@RequestMapping( value="/disable/{id}", method = { RequestMethod.PUT })
 	public void disableUser(@PathVariable("id")Integer id){
 		userService.disableUser(id);
-	}
+	}*/
 	
 
 }
