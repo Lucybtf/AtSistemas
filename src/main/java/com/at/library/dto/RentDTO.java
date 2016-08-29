@@ -16,8 +16,6 @@ public class RentDTO extends DTO {
 
 	private static final long serialVersionUID = 7364756623634860483L;
 	
-	//RentPK rentpk;
-	
 	private Integer idBook;
 	
 	private Integer idEmployee;
