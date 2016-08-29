@@ -87,6 +87,14 @@ public class Rent implements Serializable {
 	public void setInitDate(Date init) {
 		this.rentpk.setInitDate(init);
 	}
+
+	@Override
+	public String toString() {
+		return "Rent [rentpk=" + rentpk + ", employee=" + employee + ", user=" + user + ", endDate=" + endDate + "]";
+	}
+	
+	
+	
 	
 
 	
