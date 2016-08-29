@@ -43,6 +43,13 @@ public interface UserService {
 	 * **/
 	void disableUser(Integer id);
 
+	/**
+	 * Buscar el Usuario por Dni
+	 * @param dni
+	 * @return
+	 */
+	UserDTO findbyDni(String dni);
+
 	
 
 }
