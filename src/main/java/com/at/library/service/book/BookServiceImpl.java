@@ -118,6 +118,30 @@ public class BookServiceImpl implements BookService {
 	
 	@Override
 	public boolean checkAvailability(Integer id){
-		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.findunAvailable(id)==id))?false:true;
+		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?false:true;
+	}
+
+	@Override
+	public Book findByTitle(String title) {
+		// TODO Auto-generated method stub
+		return bookDao.findByTitle(title);
+	}
+
+	@Override
+	public Book findByIsbn(String isbn) {
+		// TODO Auto-generated method stub
+		return bookDao.findByIsbn(isbn);
+	}
+
+	@Override
+	public Book findByAuthor(String author) {
+		// TODO Auto-generated method stub
+		return bookDao.findByAuthor(author);
+	}
+
+	@Override
+	public List<Book> findBooksAvailable() {
+		// TODO Auto-generated method stub
+		return bookDao.findBooksAvailable();
 	}
 }
