@@ -42,13 +42,6 @@ public class RentController {
 		rentService.delete(idrent);
 	}
 	
-	/*@RequestMapping( value="/{date}", method = { RequestMethod.GET})
-	public RentDTO findDateInit( @RequestBody BookDTO book, @PathVariable("date")Date init){
-		log.debug(String.format("Buscando el Rent  Fecha %s",  init));
-		//return rentService.findbyBookAndDate(book, init);
-		return null;
-	}*/
-	
 	@RequestMapping( value="/{id}", method = { RequestMethod.PUT })
 	public void returnBook(@PathVariable("id")Integer idBook){
 		log.debug(String.format("Buscando el Rent cuyo idBook es  %s",  idBook));
