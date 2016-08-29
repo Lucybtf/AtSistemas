@@ -81,14 +81,14 @@ public interface BookService {
 	 * @param title
 	 * @return Devuelve un libro
 	 */
-	Book findByTitle(String title);
+	BookDTO findByTitle(String title);
 
 	/**
 	 * Busqueda por Isbn
 	 * @param isbn
 	 * @return Devuelve un libro
 	 */
-	Book findByIsbn(String isbn);
+	BookDTO findByIsbn(String isbn);
 	
 	/**
 	 * Busqueda por autor
@@ -96,13 +96,13 @@ public interface BookService {
 	 * @return Devuelve un libro
 	 */
 
-	Book findByAuthor(String author);
+	BookDTO findByAuthor(String author);
 
 	/**
 	 * Busqueda de todos los libros disponibles
 	 * @return
 	 */
-	List<Book> findBooksAvailable();
+	List<BookDTO> findBooksAvailable();
 	
 
 }
