@@ -47,6 +47,12 @@ public class UserController {
 		userService.delete(user);
 	}
 	
+	@RequestMapping(value="/findbydni/{dni}" , method = {RequestMethod.GET})
+	public UserDTO findbydni(@PathVariable("dni")String dni){
+		log.debug(String.format("Buscando el Usuario con el dni %s", dni));
+		return userService.findbyDni(dni);
+	}
+	
 	/*ACTIVE Y DISABLE VA EN EL SERVICIO PERO NO EN EL CONTROLADOR*/
 	/*@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
 	public void activeUser(@PathVariable("id")Integer id){
