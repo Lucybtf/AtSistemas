@@ -93,5 +93,11 @@ public class UserServiceImpl implements UserService{
 		userDao.save(u);
 	}
 
+	@Override
+	public UserDTO findbyDni(String dni) {
+		// TODO Auto-generated method stub
+		return transform(userDao.findByDni(dni));
+	}
+
 
 }
