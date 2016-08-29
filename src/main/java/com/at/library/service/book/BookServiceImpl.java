@@ -122,26 +122,28 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Book findByTitle(String title) {
+	public BookDTO findByTitle(String title) {
 		// TODO Auto-generated method stub
-		return bookDao.findByTitle(title);
+		return transform(bookDao.findByTitle(title));
 	}
 
 	@Override
-	public Book findByIsbn(String isbn) {
+	public BookDTO findByIsbn(String isbn) {
 		// TODO Auto-generated method stub
-		return bookDao.findByIsbn(isbn);
+		return transform(bookDao.findByIsbn(isbn));
 	}
 
 	@Override
-	public Book findByAuthor(String author) {
+	public BookDTO findByAuthor(String author) {
 		// TODO Auto-generated method stub
-		return bookDao.findByAuthor(author);
+		return transform(bookDao.findByAuthor(author));
 	}
 
 	@Override
-	public List<Book> findBooksAvailable() {
+	public List<BookDTO> findBooksAvailable() {
 		// TODO Auto-generated method stub
+		log.debug("Mostramos el listado de libros disponibles");
+		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
 		return bookDao.findBooksAvailable();
 	}
 }
