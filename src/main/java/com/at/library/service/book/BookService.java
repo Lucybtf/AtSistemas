@@ -75,6 +75,34 @@ public interface BookService {
 	 *  @return Devuelve si esta disponible o no un libro
 	 * */
 	boolean checkAvailability(Integer id);
+
+	/**
+	 * Busqueda por titulo
+	 * @param title
+	 * @return Devuelve un libro
+	 */
+	Book findByTitle(String title);
+
+	/**
+	 * Busqueda por Isbn
+	 * @param isbn
+	 * @return Devuelve un libro
+	 */
+	Book findByIsbn(String isbn);
+	
+	/**
+	 * Busqueda por autor
+	 * @param author
+	 * @return Devuelve un libro
+	 */
+
+	Book findByAuthor(String author);
+
+	/**
+	 * Busqueda de todos los libros disponibles
+	 * @return
+	 */
+	List<Book> findBooksAvailable();
 	
 
 }
