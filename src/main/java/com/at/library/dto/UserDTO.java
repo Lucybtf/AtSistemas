@@ -26,16 +26,6 @@ public class UserDTO extends DTO {
 	
 	private String email;
 	
-	private StatusEnum statusUser;
-
-
-	public StatusEnum getStatusUser() {
-		return statusUser;
-	}
-
-	public void setStatusUser(StatusEnum statusUser) {
-		this.statusUser = statusUser;
-	}
 
 	public Integer getId() {
 		return id;
@@ -88,9 +78,7 @@ public class UserDTO extends DTO {
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", dni=" + dni + ", name=" + name + ", surname=" + surname + ", phone=" + phone
-				+ ", email=" + email + ", statusUser=" + statusUser + "]";
+				+ ", email=" + email + "]";
 	}
-	
-	
 	
 }
