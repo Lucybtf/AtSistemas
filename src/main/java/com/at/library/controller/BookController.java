@@ -81,25 +81,25 @@ public class BookController {
 	}
 	
 	@RequestMapping( value="/title/{title}", method = { RequestMethod.GET})
-	public Book findByTitle(@PathVariable("title")String title){
+	public BookDTO findByTitle(@PathVariable("title")String title){
 		log.debug(String.format("Devolver los libros con titulo: %s", title));
 		return bookservice.findByTitle(title);
 	}
 	
 	@RequestMapping( value="/isbn/{isbn}", method = { RequestMethod.GET})
-	public Book findByIsbn(@PathVariable("isbn")String isbn){
+	public BookDTO findByIsbn(@PathVariable("isbn")String isbn){
 		log.debug(String.format("Devolver los libros con isbn: %s", isbn));
 		return bookservice.findByIsbn(isbn);
 	}
 	
 	@RequestMapping( value="/author/{author}", method = { RequestMethod.GET})
-	public Book findByAuthor(@PathVariable("author")String author){
+	public BookDTO findByAuthor(@PathVariable("author")String author){
 		log.debug(String.format("Devolver los libros con author: %s", author));
 		return bookservice.findByAuthor(author);
 	}
 	
 	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
-	public List<Book> findBooksAvailable(){
+	public List<BookDTO> findBooksAvailable(){
 		log.debug(String.format("Devolvemos todos los libros disponibles"));
 		return bookservice.findBooksAvailable();
 	}
