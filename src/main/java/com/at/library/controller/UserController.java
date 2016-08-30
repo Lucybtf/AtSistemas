@@ -34,31 +34,31 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	//@ResponseBody
+	
 	@ExceptionHandler(UserNotFoundException.class)
-	//@ResponseStatus(HttpStatus.NOT_FOUND)
 	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
 	public UserDTO findOne(@PathVariable("id")Integer id) throws UserNotFoundException {
 		log.debug(String.format("Buscando el Usuario con el id %s", id));
 		return userService.findbyId(id);
 	}
 	
-	
+	//Comprobar que el JSON viene mal estructurado
 	@RequestMapping( method = { RequestMethod.POST })
 	public UserDTO create(@RequestBody UserDTO user) {
-		log.debug(String.format("Vamos a crear el libro siguiente", user));
+		log.debug(String.format("Vamos a crear el Usuario", user));
 		return userService.create(user);
 	}
 	
-
+	//@ExceptionHandler(UserNotFoundException.class)
 	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@PathVariable("id") Integer user) {
+	public void delete(@PathVariable("id") Integer user) throws UserNotFoundException {
 		log.debug("Borrar un usuario  del sistema dado su id: %s", user);
 		userService.delete(user);
 	}
 	
+//	@ExceptionHandler(UserNotFoundException.class)
 	@RequestMapping(value="/findbydni/{dni}" , method = {RequestMethod.GET})
-	public UserDTO findbydni(@PathVariable("dni")String dni){
+	public UserDTO findbydni(@PathVariable("dni")String dni) throws UserNotFoundException{
 		log.debug(String.format("Buscando el Usuario con el dni %s", dni));
 		return userService.findbyDni(dni);
 	}
