@@ -19,6 +19,7 @@ import com.at.library.dto.EmployeeDTO;
 import com.at.library.dto.RentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Employee;
 import com.at.library.model.Rent;
@@ -63,9 +64,10 @@ public class RentServiceImpl implements RentService {
 	 * 3º Book
 	 * 4º InitDate
 	 * 5º EndDate
+	 * @throws UserNotFoundException 
 	 * */
 	@Override
-	public RentDTO create(RentDTO rentDto){
+	public RentDTO create(RentDTO rentDto) throws UserNotFoundException{
 		//Obtenemos los DTOs de Employee, UserDTO y BookDTO
 		//PENDIENTE: Comprobar que el Usuario exista, que el Empleado exista y que el BookExista y no este Alquilado
 		final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
@@ -120,13 +122,13 @@ public class RentServiceImpl implements RentService {
 	
 	//Devolución de un libro : Buscar el Libro, Comprobar que el Libro es del Usuario
 	@Override
-	public void returnBook(Integer idlibro) {
+	public void returnBook(Integer idbook) {
 		// TODO Auto-generated method stub
 		
 		final Rent rent= new Rent();
 		final RentPK rentpk=new RentPK();
 		
-		final RentDTO r = rentDao.findByUserAndBook(idlibro);
+		/*final RentDTO r = rentDao.findByBook(idbook);
 		final Employee e=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
 		final User u=userService.transform(userService.findbyId(r.getIdUser()));
 	
@@ -138,9 +140,8 @@ public class RentServiceImpl implements RentService {
 		rent.setRentpk(rentpk);
 		rent.setEmployee(e);
 		rent.setUser(u);
-		rent.setEndDate(new Date());
-		
-		
+		rent.setEndDate(new Date());*/
+			
 		rentDao.save(rent);
 		
 	}
