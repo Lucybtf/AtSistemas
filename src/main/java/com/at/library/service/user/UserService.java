@@ -50,6 +50,10 @@ public interface UserService {
 	 */
 	UserDTO findbyDni(String dni);
 
+	void punishedUser();
+
+	void forgiveUser();
+
 	
 
 }

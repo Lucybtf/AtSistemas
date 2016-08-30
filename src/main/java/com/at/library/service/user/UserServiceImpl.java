@@ -98,6 +98,18 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return transform(userDao.findByDni(dni));
 	}
+	
+	//Castigar a todos los usuarios que se hayan pasado en el Alquiler
+	@Override
+	public void punishedUser(){
+		
+	}
+	
+	//Perdonar a todos los Usuarios que haya pasado su castigo
+	@Override
+	public void forgiveUser(){
+		
+	}
 
 
 }
