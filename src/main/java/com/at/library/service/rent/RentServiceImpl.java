@@ -123,10 +123,8 @@ public class RentServiceImpl implements RentService {
 	public void returnBook(Integer idlibro) {
 		// TODO Auto-generated method stub
 		
-	/*	final Rent rent= new Rent();
+		final Rent rent= new Rent();
 		final RentPK rentpk=new RentPK();
-		
-		
 		
 		final RentDTO r = rentDao.findByUserAndBook(idlibro);
 		final Employee e=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
@@ -142,8 +140,8 @@ public class RentServiceImpl implements RentService {
 		rent.setUser(u);
 		rent.setEndDate(new Date());
 		
-	*/	
-		//rentDao.save(rent);
+		
+		rentDao.save(rent);
 		
 	}
 	
