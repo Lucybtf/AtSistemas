@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.RentDTO;
 import com.at.library.dto.UserDTO;
+import com.at.library.exceptions.BookNotFoundException;
+import com.at.library.exceptions.EmployeeNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.service.book.BookService;
 import com.at.library.service.rent.RentService;
@@ -33,7 +35,7 @@ public class RentController {
 	private BookService bookService;
 	
 	@RequestMapping( method = { RequestMethod.POST})
-	public RentDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException{
+	public RentDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		log.debug(String.format("Creamos el siguiente Alquiler", rentDto));
 		return rentService.create(rentDto);
 	}

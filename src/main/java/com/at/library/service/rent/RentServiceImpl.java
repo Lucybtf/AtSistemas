@@ -19,6 +19,8 @@ import com.at.library.dto.EmployeeDTO;
 import com.at.library.dto.RentDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.exceptions.BookNotFoundException;
+import com.at.library.exceptions.EmployeeNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Employee;
@@ -65,9 +67,11 @@ public class RentServiceImpl implements RentService {
 	 * 4º InitDate
 	 * 5º EndDate
 	 * @throws UserNotFoundException 
+	 * @throws BookNotFoundException 
+	 * @throws EmployeeNotFoundException 
 	 * */
 	@Override
-	public RentDTO create(RentDTO rentDto) throws UserNotFoundException{
+	public RentDTO create(RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		//Obtenemos los DTOs de Employee, UserDTO y BookDTO
 		//PENDIENTE: Comprobar que el Usuario exista, que el Empleado exista y que el BookExista y no este Alquilado
 		final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
