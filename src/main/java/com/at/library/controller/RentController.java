@@ -1,6 +1,7 @@
 package com.at.library.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,5 +47,11 @@ public class RentController {
 	public void returnBook(@PathVariable("id")Integer idBook){
 		log.debug(String.format("Buscando el Rent cuyo idBook es  %s",  idBook));
 		rentService.returnBook(idBook);
+	}
+	
+	@RequestMapping(value="/{id}", method = { RequestMethod.GET})
+	public List<RentDTO> rentBookHistory(@PathVariable("id") Integer idbook){
+		log.debug(String.format("Historial de Alquileres de un Libro: %s", idbook));
+		return rentService.rentBookHistory(idbook);
 	}
 }
