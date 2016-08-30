@@ -16,8 +16,9 @@ public interface UserService {
 
 	/** 
 	 * Elimina un usuario por su id
+	 * @throws UserNotFoundException 
 	 **/
-	void delete(Integer id);
+	void delete(Integer id) throws UserNotFoundException;
 	
 	/** 
 	 * Transforma un User a UserDTO
@@ -51,8 +52,9 @@ public interface UserService {
 	 * Buscar el Usuario por Dni
 	 * @param dni
 	 * @return
+	 * @throws UserNotFoundException 
 	 */
-	UserDTO findbyDni(String dni);
+	UserDTO findbyDni(String dni) throws UserNotFoundException;
 
 	void punishedUser();
 

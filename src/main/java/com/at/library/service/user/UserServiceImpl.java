@@ -50,9 +50,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		userDao.delete(id);
+		final User u= userDao.findOne(id);
+		if (u == null) 
+			throw new UserNotFoundException();
+			userDao.delete(id);
 	}
 
 	@Override
@@ -97,9 +100,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDTO findbyDni(String dni) {
+	public UserDTO findbyDni(String dni) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		return transform(userDao.findByDni(dni));
+		final User u = userDao.findByDni(dni);
+		if(u == null) throw new UserNotFoundException();
+		return transform(u);
 	}
 	
 	//Castigar a todos los usuarios que se hayan pasado en el Alquiler
