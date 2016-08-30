@@ -15,9 +15,10 @@ import com.at.library.dao.UserDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.User;
-
+import com.at.library.exceptions.UserNotFoundException;
 /**
  * @author Lucia Batista Flores
  *
@@ -55,14 +56,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDTO findbyId(Integer id) {
+	public UserDTO findbyId(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u=userDao.findOne(id);
+		if (u == null) 
+			throw new UserNotFoundException();
 		return transform(u);
 	}
 
 	@Override
-	public void activeUser(Integer id) {
+	public void activeUser(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u = transform(findbyId(id));
 		if(u.getStatususer()== null){
@@ -78,7 +81,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void disableUser(Integer id) {
+	public void disableUser(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u = transform(findbyId(id));
 		if(u.getStatususer()== null){
