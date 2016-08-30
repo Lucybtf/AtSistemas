@@ -15,6 +15,7 @@ import com.at.library.dao.EmployeeDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.EmployeeDTO;
 import com.at.library.dto.UserDTO;
+import com.at.library.exceptions.EmployeeNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Employee;
 import com.at.library.service.book.BookService;
@@ -28,8 +29,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private DozerBeanMapper dozer;
 	
+	//Comprobar que el JSON viene con el formato adecuado
 	@Override
-	public EmployeeDTO create(EmployeeDTO emplDTO){
+	public EmployeeDTO create(EmployeeDTO emplDTO) {
 		final Employee em=transform(emplDTO);
 		return transform(employeeDao.save(em));
 		
@@ -46,13 +48,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeDTO findbyId(Integer id){
+	public EmployeeDTO findbyId(Integer id) throws EmployeeNotFoundException{
 		final Employee e=employeeDao.findOne(id);
+		if(e == null) throw new EmployeeNotFoundException();
 		return transform(e);
 	}
 
 	@Override
-	public void delete(Integer id){
+	public void delete(Integer id) throws EmployeeNotFoundException{
+		final Employee e=employeeDao.findOne(id);
+		if(e == null) throw new EmployeeNotFoundException();
 		employeeDao.delete(id);
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.EmployeeDTO;
 import com.at.library.dto.UserDTO;
+import com.at.library.exceptions.EmployeeNotFoundException;
 import com.at.library.service.employee.EmployeeService;
 
 @RestController
@@ -23,7 +24,7 @@ private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	private EmployeeService employeeService;
 	
 	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
-	public EmployeeDTO findOne(@PathVariable("id")Integer id){
+	public EmployeeDTO findOne(@PathVariable("id")Integer id) throws EmployeeNotFoundException{
 		log.debug(String.format("Buscando el Usuario con el id %s", id));
 		return employeeService.findbyId(id);
 	}
@@ -36,7 +37,7 @@ private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	
 	@RequestMapping( value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@PathVariable("id") Integer user) {
+	public void delete(@PathVariable("id") Integer user) throws EmployeeNotFoundException {
 		log.debug("Borrar un usuario  del sistema dado su id: %s", user);
 		employeeService.delete(user);
 	}
