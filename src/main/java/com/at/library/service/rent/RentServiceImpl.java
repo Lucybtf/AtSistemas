@@ -32,7 +32,7 @@ import com.at.library.service.user.UserService;
 public class RentServiceImpl implements RentService {
 	
 	private static final Logger log = LoggerFactory.getLogger(RentServiceImpl.class);
-	//Necesito guardar en el modelo de la Base de datos el Rent que creo
+
 	@Autowired
 	private RentDao rentDao;
 	
@@ -143,6 +143,12 @@ public class RentServiceImpl implements RentService {
 		
 		rentDao.save(rent);
 		
+	}
+
+	@Override
+	public List<RentDTO> rentBookHistory(Integer idbook) {
+		// TODO Auto-generated method stub
+		return rentDao.findByBook(idbook);
 	}
 	
 }

@@ -34,8 +34,18 @@ public interface RentService {
 
 	RentDTO transform(Rent rent);
 
+	/**
+	 * Devolución de un Libro
+	 * @param idlibro
+	 */
 
 	void returnBook(Integer idlibro);
 
-
+	/**
+	 * Historial de Alquileres
+	 * @param idbook
+	 * @return Devuelve los alquileres de un libro
+	 */
+	List<RentDTO> rentBookHistory(Integer idbook);
+	
 }
