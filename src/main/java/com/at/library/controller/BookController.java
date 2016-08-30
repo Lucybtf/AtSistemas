@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.exceptions.BookNotFoundException;
+import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.service.book.BookService;
 
@@ -40,21 +42,21 @@ public class BookController {
 	
 	//Recuperar
 	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
-	public BookDTO findOne(@PathVariable("id")Integer id){
+	public BookDTO findOne(@PathVariable("id")Integer id) throws BookNotFoundException{
 		log.debug(String.format("Buscando el libro con el id %s", id));
 		return bookservice.findbyId(id);
 	}
 	
 	//Modificar
 	@RequestMapping(value="/{id}", method =  { RequestMethod.PUT})
-	public void update( @PathVariable("id")Integer id, @RequestBody BookDTO book){
+	public void update( @PathVariable("id")Integer id, @RequestBody BookDTO book) throws BookNotFoundException{
 		log.debug(String.format("Vamos a modificar el siguiente", book));
 		bookservice.update(book);
 	}
 	
 	//Borrar
 	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE })
-	public void delete(@PathVariable("id")Integer id){
+	public void delete(@PathVariable("id")Integer id) throws BookNotFoundException{
 		log.debug(String.format("Vamos a borrar un libro dado un id %s", id));
 		bookservice.delete(id);
 	}
@@ -81,20 +83,26 @@ public class BookController {
 	}
 	
 	@RequestMapping( value="/title/{title}", method = { RequestMethod.GET})
-	public BookDTO findByTitle(@PathVariable("title")String title){
+	public BookDTO findByTitle(@PathVariable("title")String title) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con titulo: %s", title));
+		final Book book =bookservice.transform(bookservice.findByTitle(title));
+		if(book == null) throw new BookNotFoundException();
 		return bookservice.findByTitle(title);
 	}
 	
 	@RequestMapping( value="/isbn/{isbn}", method = { RequestMethod.GET})
-	public BookDTO findByIsbn(@PathVariable("isbn")String isbn){
+	public BookDTO findByIsbn(@PathVariable("isbn")String isbn) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con isbn: %s", isbn));
+		final Book book =bookservice.transform(bookservice.findByIsbn(isbn));
+		if(book == null) throw new BookNotFoundException();
 		return bookservice.findByIsbn(isbn);
 	}
 	
 	@RequestMapping( value="/author/{author}", method = { RequestMethod.GET})
-	public BookDTO findByAuthor(@PathVariable("author")String author){
+	public BookDTO findByAuthor(@PathVariable("author")String author) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con author: %s", author));
+		final Book book =bookservice.transform(bookservice.findByAuthor(author));
+		if(book == null) throw new BookNotFoundException();
 		return bookservice.findByAuthor(author);
 	}
 	

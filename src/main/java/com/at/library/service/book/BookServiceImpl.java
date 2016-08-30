@@ -16,6 +16,7 @@ import com.at.library.controller.BookController;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.enums.StatusEnum;
+import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.User;
 
@@ -54,35 +55,38 @@ public class BookServiceImpl implements BookService {
 		return dozer.map(book, Book.class);
 	}
 
+	//Comprobar que el JSON esta bien
 	@Override
-	public BookDTO create(BookDTO bookDTO){
+	public BookDTO create(BookDTO bookDTO) {
 		final Book book=transform(bookDTO);
-		//book.setStatus(StatusEnum.DISABLE);
 		return transform(bookDao.save(book));
 	}
 
 	@Override
-	public void delete(Integer id){
-	//	final BookDTO book= findbyId(id);
+	public void delete(Integer id) throws BookNotFoundException{
+		final Book book= transform(findbyId(id));
+		if(book == null) throw new BookNotFoundException();
 		bookDao.delete(id);
 	}
 
 	@Override
-	public void update(BookDTO book){
-		final BookDTO b=book;
-		bookDao.save(transform(b));
+	public void update(BookDTO bookDTO) throws BookNotFoundException{
+		final Book book=transform(bookDTO);
+		if(book == null) throw new BookNotFoundException();
+		bookDao.save(transform(bookDTO));
 	}
 
 	@Override
-	public BookDTO findbyId(Integer id){
-		final Book b=bookDao.findOne(id);
-		return transform(b);
+	public BookDTO findbyId(Integer id) throws BookNotFoundException{
+		final Book book=bookDao.findOne(id);
+		if(book == null) throw new BookNotFoundException();
+		return transform(book);
 		
 	}
 	
 	
 	@Override
-	public void activeBook(Integer id) {
+	public void activeBook(Integer id) throws BookNotFoundException {
 		// TODO Auto-generated method stub
 		final Book b = transform(findbyId(id));
 		//Comprobar que un libro no este alquilado por un usuario (¿?)
@@ -99,7 +103,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void disableBook(Integer id) {
+	public void disableBook(Integer id) throws BookNotFoundException {
 		// TODO Auto-generated method stub
 		final Book b = transform(findbyId(id));
 		//Comprobar que un libro no este alquilado por un usuario (¿?)
@@ -122,21 +126,27 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public BookDTO findByTitle(String title) {
+	public BookDTO findByTitle(String title) throws BookNotFoundException {
 		// TODO Auto-generated method stub
+		final Book book = bookDao.findByTitle(title);
+		if(book == null) throw new BookNotFoundException();
 		return transform(bookDao.findByTitle(title));
 	}
 
 	@Override
-	public BookDTO findByIsbn(String isbn) {
+	public BookDTO findByIsbn(String isbn) throws BookNotFoundException {
 		// TODO Auto-generated method stub
+		final Book book = bookDao.findByIsbn(isbn);
+		if(book == null) throw new BookNotFoundException();
 		return transform(bookDao.findByIsbn(isbn));
 	}
 
 	@Override
-	public BookDTO findByAuthor(String author) {
+	public BookDTO findByAuthor(String author) throws BookNotFoundException {
 		// TODO Auto-generated method stub
-		return transform(bookDao.findByAuthor(author));
+		final Book book = bookDao.findByAuthor(author);
+		if(book == null) throw new BookNotFoundException();
+		return transform(book);
 	}
 
 	@Override
