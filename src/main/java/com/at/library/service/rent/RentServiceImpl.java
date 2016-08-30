@@ -111,17 +111,29 @@ public class RentServiceImpl implements RentService {
 	}
 
 
+	public Integer diferenceBetweenDays(Date day1, Date day2){
+		
+		long days2=(day1.getTime()-day2.getTime())/(24 * 60 * 60 * 1000);
+		return (int)days2;
+	}
+	
+	
 	//Devolución de un libro : Buscar el Libro, Comprobar que el Libro es del Usuario
 	@Override
 	public void returnBook(Integer idlibro) {
 		// TODO Auto-generated method stub
 		
-		final Rent rent= new Rent();
+	/*	final Rent rent= new Rent();
 		final RentPK rentpk=new RentPK();
+		
+		
 		
 		final RentDTO r = rentDao.findByUserAndBook(idlibro);
 		final Employee e=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
 		final User u=userService.transform(userService.findbyId(r.getIdUser()));
+	
+		
+		log.debug(String.format("El numero de dias de diferencia son: %s", diferenceBetweenDays( new Date(), r.getInitDate())));
 		
 		rentpk.setBook(bookService.transform(bookService.findbyId(idlibro)));
 		rentpk.setInitDate(r.getInitDate());
@@ -130,8 +142,8 @@ public class RentServiceImpl implements RentService {
 		rent.setUser(u);
 		rent.setEndDate(new Date());
 		
-		
-		rentDao.save(rent);
+	*/	
+		//rentDao.save(rent);
 		
 	}
 	

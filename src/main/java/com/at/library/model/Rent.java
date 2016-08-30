@@ -29,9 +29,7 @@ public class Rent implements Serializable {
 	@ManyToOne
 	private User user;
 	
-//	@Temporal(TemporalType.TIMESTAMP)
-	//private Date initDate;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 
@@ -67,6 +65,7 @@ public class Rent implements Serializable {
 		this.endDate = endDate;
 	}
 
+
 	/*Propios get/set de los parámetros del RentPK*/
 	@Transient
 	public Book getBook() {
@@ -92,10 +91,6 @@ public class Rent implements Serializable {
 	public String toString() {
 		return "Rent [rentpk=" + rentpk + ", employee=" + employee + ", user=" + user + ", endDate=" + endDate + "]";
 	}
-	
-	
-	
-	
 
 	
 }
