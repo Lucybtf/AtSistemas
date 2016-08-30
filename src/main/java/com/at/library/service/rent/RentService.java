@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.RentDTO;
+import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
 
@@ -13,8 +14,9 @@ public interface RentService {
 	/**
 	 * Crea un alquiler
 	 * @return Devuelve un RentDTO
+	 * @throws UserNotFoundException 
 	 */
-	RentDTO create(RentDTO rentDto);
+	RentDTO create(RentDTO rentDto) throws UserNotFoundException;
 
 	/**
 	 * Borrar un alquiler dado un id
