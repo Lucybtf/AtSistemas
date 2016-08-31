@@ -24,7 +24,7 @@ import com.at.library.model.User;
 import com.at.library.service.user.UserService;
 import com.at.library.exceptions.*;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages="com.at.library.controller")
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
