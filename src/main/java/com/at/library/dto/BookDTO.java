@@ -3,6 +3,7 @@ package com.at.library.dto;
 
 import java.io.Serializable;
 
+import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
 
 public class BookDTO extends DTO {
@@ -16,6 +17,14 @@ public class BookDTO extends DTO {
 	private String title;
 
 	private String author;
+	
+	private String status;
+	
+	private Integer year;
+	
+	private String image;
+	
+	private String description;
 	
 	//private StatusEnum statusBook;
 
@@ -32,9 +41,6 @@ public class BookDTO extends DTO {
 		this.author=author;
 	}
 		
-	
-
-
 	public Integer getId() {
 		return id;
 	}
@@ -67,10 +73,50 @@ public class BookDTO extends DTO {
 		this.author = author;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
-		return "BookDTO [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author + "]";
+		return "BookDTO [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author + ", status=" + status
+				+ ", year=" + year + ", image=" + image + ", description=" + description + "]";
 	}
+
+	
+
+/*	@Override
+	public String toString() {
+		return "BookDTO [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author + "]";
+	}*/
 
 	/*public StatusEnum getStatusBook() {
 		return statusBook;
