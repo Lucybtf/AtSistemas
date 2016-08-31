@@ -78,16 +78,30 @@ public class RentServiceImpl implements RentService {
 		final UserDTO user = userService.findbyId(rentDto.getIdUser());
 		final BookDTO book = bookService.findbyId(rentDto.getIdBook());
 		
-		//Creamos un objeto Rent
-		Rent r = new Rent();
-		r.setBook(bookService.transform(book)); //Le asigno el BookDTO tranformado a Book
-		r.setEmployee(employeeService.transform(employee)); //Le asigno el EmployeeDTO transformado a Employee
-		r.setUser(userService.transform(user)); // Le asigno el UserDTO transformado a User
-		r.setInitDate(new Date()); //Cojo la Fecha del Servidor
-		r.setEndDate(null); //Inicializo a Null porque no se ha devuelto
-		
-		//Resumo en una línea guardo el objeto r creado y lo tranformo a RentDTO que es lo que devuelve la función
-		return transform(rentDao.save(r));
+		System.out.println(bookService.checkAvailability(rentDto.getIdBook()));
+		log.debug(String.format("Disponibilidad:", bookService.checkAvailability(rentDto.getIdBook())));
+		//Compruebo primero si el Libro está disponible
+		if(bookService.checkAvailability(rentDto.getIdBook()))
+		{
+			//Creamos un objeto Rent
+			Rent r = new Rent();
+			RentPK rpk= new RentPK();
+			rpk.setBook(bookService.transform(book));
+			rpk.setInitDate(new Date());
+			r.setRentpk(rpk);
+			r.setEmployee(employeeService.transform(employee));
+			r.setUser(userService.transform(user));
+			//r.setBook(bookService.transform(book)); //Le asigno el BookDTO tranformado a Book
+			//r.setEmployee(employeeService.transform(employee)); //Le asigno el EmployeeDTO transformado a Employee
+			//r.setUser(userService.transform(user)); // Le asigno el UserDTO transformado a User
+			//r.setInitDate(new Date()); //Cojo la Fecha del Servidor
+			r.setEndDate(null); //Inicializo a Null porque no se ha devuelto
+			
+			//Resumo en una línea guardo el objeto r creado y lo tranformo a RentDTO que es lo que devuelve la función
+			return transform(rentDao.save(r));
+			//return new RentDTO();
+		}
+		else return new RentDTO();
 	}
 	
 	@Override

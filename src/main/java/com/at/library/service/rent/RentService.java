@@ -28,13 +28,6 @@ public interface RentService {
 	 */
 	void delete(Integer idrent);
 
-	/**
-	 * Devuelve un alquiler: Coloca la fecha de devolución y el libro vuelve a estar disponible
-	 * @return Devuelve un RentDTO
-	 */
-	//void returnBook(Integer id);
-
-
 	
 	Rent transform(RentDTO rent);
 
