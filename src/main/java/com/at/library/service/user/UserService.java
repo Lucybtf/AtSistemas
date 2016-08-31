@@ -60,6 +60,8 @@ public interface UserService {
 
 	void forgiveUser();
 
+	UserDTO findbyName(String name) throws UserNotFoundException;
+
 	
 
 }

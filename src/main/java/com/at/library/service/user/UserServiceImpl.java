@@ -107,6 +107,15 @@ public class UserServiceImpl implements UserService{
 		return transform(u);
 	}
 	
+	@Override
+	public UserDTO findbyName(String name) throws UserNotFoundException {
+		// TODO Auto-generated method stub
+		final User u = userDao.findByName(name);
+		if(u == null) throw new UserNotFoundException();
+		return transform(u);
+	}
+	
+	
 	//Castigar a todos los usuarios que se hayan pasado en el Alquiler
 	@Override
 	public void punishedUser(){
