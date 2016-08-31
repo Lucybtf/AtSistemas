@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
@@ -82,24 +83,24 @@ public class BookController {
 		return bookservice.checkAvailability(id);
 	}
 	
-	@RequestMapping( value="/title/{title}", method = { RequestMethod.GET})
-	public BookDTO findByTitle(@PathVariable("title")String title) throws BookNotFoundException{
+	@RequestMapping( method = { RequestMethod.GET}, params={"title"})
+	public BookDTO findByTitle(@RequestParam(value="title")String title) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con titulo: %s", title));
 		final Book book =bookservice.transform(bookservice.findByTitle(title));
 		if(book == null) throw new BookNotFoundException();
 		return bookservice.findByTitle(title);
 	}
 	
-	@RequestMapping( value="/isbn/{isbn}", method = { RequestMethod.GET})
-	public BookDTO findByIsbn(@PathVariable("isbn")String isbn) throws BookNotFoundException{
+	@RequestMapping( method = { RequestMethod.GET}, params={"isbn"})
+	public BookDTO findByIsbn(@RequestParam(value="isbn")String isbn) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con isbn: %s", isbn));
 		final Book book =bookservice.transform(bookservice.findByIsbn(isbn));
 		if(book == null) throw new BookNotFoundException();
 		return bookservice.findByIsbn(isbn);
 	}
 	
-	@RequestMapping( value="/author/{author}", method = { RequestMethod.GET})
-	public BookDTO findByAuthor(@PathVariable("author")String author) throws BookNotFoundException{
+	@RequestMapping(method = { RequestMethod.GET}, params={"author"})
+	public BookDTO findByAuthor(@RequestParam(value="author")String author) throws BookNotFoundException{
 		log.debug(String.format("Devolver los libros con author: %s", author));
 		final Book book =bookservice.transform(bookservice.findByAuthor(author));
 		if(book == null) throw new BookNotFoundException();
