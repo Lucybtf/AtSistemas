@@ -11,7 +11,10 @@ public class UserDTO extends DTO {
 
 
 	private static final long serialVersionUID = 3827455324138571715L;
-
+	/**
+	 * USER: id, dni, name, 
+	 */
+	
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -20,11 +23,11 @@ public class UserDTO extends DTO {
 	
 	private String name;
 	
-	private String surname;
+//	private String surname;
 	
-	private String phone;
+//	private String phone;
 	
-	private String email;
+//	private String email;
 	
 
 	public Integer getId() {
@@ -51,7 +54,12 @@ public class UserDTO extends DTO {
 		this.name = name;
 	}
 
-	public String getSurname() {
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", dni=" + dni + ", name=" + name + "]";
+	}
+
+/*	public String getSurname() {
 		return surname;
 	}
 
@@ -73,12 +81,7 @@ public class UserDTO extends DTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
+	}*/
 
-	@Override
-	public String toString() {
-		return "UserDTO [id=" + id + ", dni=" + dni + ", name=" + name + ", surname=" + surname + ", phone=" + phone
-				+ ", email=" + email + "]";
-	}
-	
+
 }
