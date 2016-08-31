@@ -26,12 +26,12 @@ public class User implements Serializable {
 	
 	private String name;
 	
-	private String surname;
+	//private String surname;
 	
-	private String phone;
+	//private String phone;
 	
 	//@Column(unique=True)
-	private String email;
+	//private String email;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusEnum statususer;
@@ -64,7 +64,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public String getSurname() {
+	/*public String getSurname() {
 		return surname;
 	}
 
@@ -86,7 +86,7 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
+	}*/
 
 	public StatusEnum getStatususer() {
 		return statususer;
