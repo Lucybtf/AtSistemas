@@ -31,8 +31,8 @@ public class RentController {
 	@Autowired
 	private RentService rentService;
 	
-	@Autowired
-	private BookService bookService;
+//	@Autowired
+//	private BookService bookService;
 	
 	@RequestMapping( method = { RequestMethod.POST})
 	public RentDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
