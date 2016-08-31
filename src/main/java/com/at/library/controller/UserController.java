@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,10 +58,16 @@ public class UserController {
 	}
 	
 //	@ExceptionHandler(UserNotFoundException.class)
-	@RequestMapping(value="/findbydni/{dni}" , method = {RequestMethod.GET})
-	public UserDTO findbydni(@PathVariable("dni")String dni) throws UserNotFoundException{
+	@RequestMapping( method = {RequestMethod.GET}, params={"dni"})
+	public UserDTO findByDni(@RequestParam(value="dni")String dni) throws UserNotFoundException{
 		log.debug(String.format("Buscando el Usuario con el dni %s", dni));
 		return userService.findbyDni(dni);
+	}
+	
+	@RequestMapping( method = {RequestMethod.GET}, params={"name"})
+	public UserDTO findByName(@RequestParam(value="name")String name) throws UserNotFoundException{
+		log.debug(String.format("Buscando el Usuario con el nombre %s", name));
+		return userService.findbyName(name);
 	}
 	
 	/*ACTIVE Y DISABLE VA EN EL SERVICIO PERO NO EN EL CONTROLADOR*/
