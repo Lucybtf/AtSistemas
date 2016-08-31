@@ -34,6 +34,8 @@ public class RentController {
 //	@Autowired
 //	private BookService bookService;
 	
+	//URL DELETE(DEVOLUCION):"/rent/{idbook}"
+	
 	@RequestMapping( method = { RequestMethod.POST})
 	public RentDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		log.debug(String.format("Creamos el siguiente Alquiler", rentDto));
