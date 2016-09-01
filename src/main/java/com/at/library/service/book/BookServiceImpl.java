@@ -1,24 +1,40 @@
 package com.at.library.service.book;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.at.library.controller.BookController;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.RentMigrationDTO;
 import com.at.library.enums.StatusEnum;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.User;
+
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -129,6 +145,7 @@ public class BookServiceImpl implements BookService {
 	public BookDTO findByTitle(String title) throws BookNotFoundException {
 		// TODO Auto-generated method stub
 		final Book book = bookDao.findByTitle(title);
+		log.debug(String.format("LIBRO", transform(book)));
 		if(book == null) throw new BookNotFoundException();
 		return transform(bookDao.findByTitle(title));
 	}
@@ -155,5 +172,45 @@ public class BookServiceImpl implements BookService {
 		log.debug("Mostramos el listado de libros disponibles");
 		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
 		return bookDao.findBooksAvailable();
+	}
+
+	@Override
+	public BookDTO findInGoogle(String title) throws JSONException, ParseException  {
+		// TODO Auto-generated method stub
+		//log.debug(String.format("Buscamos el primer libro en el API de Google"));
+		
+		RestTemplate restemplate = new RestTemplate();
+		//log.debug("Hacemos la peticion");
+		String url="https://www.googleapis.com/books/v1/volumes?q="+ title + "&maxResults=1";
+		ResponseEntity<String> res= restemplate.getForEntity(url, String.class);
+
+		//log.debug(String.format("Devolvemos el objeto: %s",res));
+		
+		JSONObject json= new JSONObject(res.getBody().toString());
+		BookDTO resbook = new BookDTO();
+		
+		//log.debug(String.format("Devolvemos el json: %s",json));
+		//JSONArray jsonbook = ;
+		JSONObject json_content= json.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo");
+
+		//log.debug(String.format("Devolvemos el primer Libro: %s", json_content));
+		//log.debug(String.format("Devolvemos fecha de publicación: %s", json_content.get("publishedDate")));
+		//log.debug(String.format("Devolvemos descripcion: %s", json_content.get("description")));
+		//log.debug(String.format("Devolvemos imagen: %s", json_content.getJSONObject("imageLinks").get("thumbnail") ));
+		
+		//log.debug(String.format("Buscamos nuestro libro en la BD con nombre: %s", transform(bookDao.findByTitle(title))));
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		resbook =transform(bookDao.findByTitle(title));
+		//Date publishedDate = formatter.parse(json_content.get("publishedDate").toString());
+		
+		DateTimeFormatter df =DateTimeFormat.forPattern("yyyy-MM-dd"); 
+		long millis = df.parseMillis(json_content.get("publishedDate").toString()); 
+		DateTime dt = new DateTime(millis);
+		
+		resbook.setYear(dt.getYear());
+		resbook.setDescription(json_content.get("description").toString());
+		resbook.setImage(json_content.getJSONObject("imageLinks").get("thumbnail").toString());
+	
+		return resbook;
 	}
 }

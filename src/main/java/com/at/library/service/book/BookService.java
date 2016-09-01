@@ -1,6 +1,9 @@
 package com.at.library.service.book;
 
+import java.text.ParseException;
 import java.util.List;
+
+import org.json.JSONException;
 
 import com.at.library.dto.BookDTO;
 import com.at.library.exceptions.BookNotFoundException;
@@ -115,6 +118,8 @@ public interface BookService {
 	 * @return
 	 */
 	List<BookDTO> findBooksAvailable();
+
+	BookDTO findInGoogle(String title) throws JSONException, ParseException;
 	
 
 }
