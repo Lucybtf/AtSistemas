@@ -81,7 +81,7 @@ public class RentServiceImpl implements RentService {
 		System.out.println(bookService.checkAvailability(rentDto.getIdBook()));
 		log.debug(String.format("Disponibilidad:", bookService.checkAvailability(rentDto.getIdBook())));
 		//Compruebo primero si el Libro está disponible
-		if(bookService.checkAvailability(rentDto.getIdBook()))
+		if(bookService.checkAvailability(rentDto.getIdBook())=="OK")
 		{
 			//Creamos un objeto Rent
 			Rent r = new Rent();
