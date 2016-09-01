@@ -30,7 +30,7 @@ public class BookDTO extends DTO {
 
 	public BookDTO()
 	{
-		super();
+	
 	}
 	
 	public BookDTO(Integer id, String isbn, String title, String author){
@@ -39,6 +39,7 @@ public class BookDTO extends DTO {
 		this.isbn=isbn;
 		this.title=title;
 		this.author=author;
+		this.status="OK";
 	}
 		
 	public Integer getId() {
