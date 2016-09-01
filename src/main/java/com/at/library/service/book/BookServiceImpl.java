@@ -98,8 +98,8 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public String checkAvailability(Integer id){
-		log.debug(String.format("Disponibilidad de libro(ACTIVE/DISABLE): %s", bookDao.findOne(id)));
-		log.debug(String.format("Disponibilidad para alquilar: %s", bookDao.checkAvailability(id)));
+	//	log.debug(String.format("Disponibilidad de libro(ACTIVE/DISABLE): %s", bookDao.findOne(id)));
+		log.debug(String.format("Disponibilidad para alquilar y que este activo: %s", bookDao.checkAvailability(id)));
 		//return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?"RENTED":"OK";
 		return (bookDao.checkAvailability(id)==id)?"RENTED":"OK";
 	}
