@@ -30,6 +30,7 @@ import com.at.library.controller.BookController;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.RentMigrationDTO;
+import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.model.Book;
@@ -40,7 +41,7 @@ import com.at.library.model.User;
 public class BookServiceImpl implements BookService {
 
 	private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
-	//private static final org.apache.log4j.Logger logger = LogManager.getLogger("HelloWorld");
+	
 	
 	@Autowired
 	private BookDao bookDao;
@@ -56,6 +57,7 @@ public class BookServiceImpl implements BookService {
 		while (iterator.hasNext()) {
 			final Book b = iterator.next();
 			final BookDTO bDTO = transform(b);
+			bDTO.setStatus(checkAvailability(bDTO.getId()));
 			res.add(bDTO);
 		}
 		return res;
@@ -75,7 +77,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookDTO create(BookDTO bookDTO) {
 		final Book book=transform(bookDTO);
-		return transform(bookDao.save(book));
+		final BookDTO bookend=transform(bookDao.save(book));
+		bookend.setStatus(checkAvailability(bookend.getId()));
+		return bookend;
 	}
 
 	@Override
@@ -93,10 +97,16 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
+	public String checkAvailability(Integer id){
+		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?"RENTED":"OK";
+	}
+	
+	@Override
 	public BookDTO findbyId(Integer id) throws BookNotFoundException{
 		final Book book=bookDao.findOne(id);
 		if(book == null) throw new BookNotFoundException();
-		return transform(book);
+		final BookDTO bookend=transform(book);
+		return bookend;
 		
 	}
 	
@@ -136,10 +146,7 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	
-	@Override
-	public boolean checkAvailability(Integer id){
-		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?false:true;
-	}
+	
 
 	@Override
 	public BookDTO findByTitle(String title) throws BookNotFoundException {

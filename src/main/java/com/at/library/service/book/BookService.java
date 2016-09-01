@@ -86,7 +86,7 @@ public interface BookService {
 	 *  @param id
 	 *  @return Devuelve si esta disponible o no un libro
 	 * */
-	boolean checkAvailability(Integer id);
+	String checkAvailability(Integer id);
 
 	/**
 	 * Busqueda por titulo
