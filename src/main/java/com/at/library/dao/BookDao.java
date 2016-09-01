@@ -23,6 +23,8 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	Book findByIsbn(String isbn);
 	Book findByAuthor(String author);
 	
+	@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b")
+	List<Book> findAll();
 	
 	@Query("select new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) from Book as b where b.id in (select r.rentpk.book.id from Rent as r where r.endDate is not null)")
 	List<BookDTO> findBooksAvailable();
