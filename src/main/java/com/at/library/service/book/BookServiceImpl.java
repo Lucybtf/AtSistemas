@@ -98,7 +98,10 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public String checkAvailability(Integer id){
-		return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?"RENTED":"OK";
+		log.debug(String.format("Disponibilidad de libro(ACTIVE/DISABLE): %s", bookDao.findOne(id)));
+		log.debug(String.format("Disponibilidad para alquilar: %s", bookDao.checkAvailability(id)));
+		//return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?"RENTED":"OK";
+		return (bookDao.checkAvailability(id)==id)?"RENTED":"OK";
 	}
 	
 	@Override
@@ -106,6 +109,7 @@ public class BookServiceImpl implements BookService {
 		final Book book=bookDao.findOne(id);
 		if(book == null) throw new BookNotFoundException();
 		final BookDTO bookend=transform(book);
+		bookend.setStatus(checkAvailability(bookend.getId()));
 		return bookend;
 		
 	}
