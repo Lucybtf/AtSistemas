@@ -79,11 +79,11 @@ public class BookController {
 	/** No me queda claro como poner las url, en el caso de disponibilidad entiendo que solo se usa en el servicio
 	 * pero en el caso de las busquedas ¿como estaría correcta la url?
 	 */
-	@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
+	/*@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
 	public boolean checkAvailability(@PathVariable("id")Integer id){
 		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
 		return bookservice.checkAvailability(id);
-	}
+	}*/
 	
 	@RequestMapping( method = { RequestMethod.GET}, params={"title"})
 	public BookDTO findByTitle(@RequestParam(value="title")String title) throws BookNotFoundException{
