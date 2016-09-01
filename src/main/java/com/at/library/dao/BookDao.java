@@ -23,13 +23,17 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	Book findByIsbn(String isbn);
 	Book findByAuthor(String author);
 	
-	@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b")
+	@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b where b.id=?1")
+	Book findOne(Integer id);
+	
+	@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b  where (b.status = 'ACTIVE')")
 	List<Book> findAll();
 	
 	@Query("select new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) from Book as b where b.id in (select r.rentpk.book.id from Rent as r where r.endDate is not null)")
 	List<BookDTO> findBooksAvailable();
 	
 	//@Query(value = "SELECT r.pk.book.id FROM Rent AS r, Book AS b WHERE (r.endDate IS null AND r.pk.book.id = ?1) OR (b.id = ?1 AND b.status = 'DISABLE')")
-	@Query("select r.rentpk.book.id from Rent as r where (r.endDate is null and r.rentpk.book.id=?1)")
+	@Query("select r.rentpk.book.id from Rent as r, Book as b where (r.endDate is null and r.rentpk.book.id=?1) or (b.id=?1 and b.status = 'DISABLE')")
+//	@Query("select r.rentpk.book.id from Rent as r, Book as b where (r.endDate is null and r.rentpk.book.id=?1)")
 	Integer checkAvailability(Integer id);
 }
