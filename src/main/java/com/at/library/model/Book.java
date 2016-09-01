@@ -34,6 +34,17 @@ public class Book implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
 
+	public Book(){
+		
+	}
+	
+	public Book(Integer id, String isbn, String title, String author){
+		this.id=id;
+		this.isbn=isbn;
+		this.title=title;
+		this.author=author;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
