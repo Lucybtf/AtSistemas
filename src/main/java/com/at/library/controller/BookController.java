@@ -1,8 +1,10 @@
 package com.at.library.controller;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +113,13 @@ public class BookController {
 	public List<BookDTO> findBooksAvailable(){
 		log.debug(String.format("Devolvemos todos los libros disponibles"));
 		return bookservice.findBooksAvailable();
+	}
+	
+	/*Obtener los campos de Google*/
+	@RequestMapping(value="/findInGoogle", method = {RequestMethod.POST}, params={"title"})
+	public BookDTO findInGoogle(@RequestParam(value="title")String title) throws JSONException, ParseException{
+		log.debug(String.format("Devolvemos un libro dado el titulo: %s", title));
+		return bookservice.findInGoogle(title);	
 	}
 	
 }
