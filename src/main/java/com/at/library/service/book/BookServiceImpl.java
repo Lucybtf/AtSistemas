@@ -75,25 +75,33 @@ public class BookServiceImpl implements BookService {
 
 	//Comprobar que el JSON esta bien
 	@Override
-	public BookDTO create(BookDTO bookDTO) {
+	public BookDTO create(BookDTO bookDTO) throws BookNotFoundException {
 		final Book book=transform(bookDTO);
+		//book.setStatus(StatusEnum.ACTIVE); AQUI LLAMAMOS A ACTIVAR LIBRO
+		
 		final BookDTO bookend=transform(bookDao.save(book));
+		activeBook(bookend.getId());
 		bookend.setStatus(checkAvailability(bookend.getId()));
 		return bookend;
 	}
 
 	@Override
 	public void delete(Integer id) throws BookNotFoundException{
-		final Book book= transform(findbyId(id));
+		final Book book= bookDao.findOne(id);
 		if(book == null) throw new BookNotFoundException();
-		bookDao.delete(id);
+		disableBook(book.getId());
+		//bookDao.delete(id);
 	}
 
 	@Override
 	public void update(BookDTO bookDTO) throws BookNotFoundException{
-		final Book book=transform(bookDTO);
+
+		final Book book = bookDao.findOne(bookDTO.getId()); //BUsco que el Book exista
 		if(book == null) throw new BookNotFoundException();
-		bookDao.save(transform(bookDTO));
+		if (bookDTO.getAuthor() != null) book.setAuthor(bookDTO.getAuthor());//Si el book que me pasan tiene campos distintos, asignamelo 
+		if (bookDTO.getIsbn() != null) book.setIsbn(bookDTO.getIsbn());
+		if(bookDTO.getTitle()!= null) book.setTitle(bookDTO.getTitle());
+		bookDao.save(book);
 	}
 
 	@Override
@@ -118,8 +126,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void activeBook(Integer id) throws BookNotFoundException {
 		// TODO Auto-generated method stub
-		final Book b = transform(findbyId(id));
-		//Comprobar que un libro no este alquilado por un usuario (¿?)
+		final Book b = bookDao.findOne(id);
 		if(b.getStatus()== null){
 			b.setStatus(StatusEnum.ACTIVE);
 		}
@@ -127,7 +134,6 @@ public class BookServiceImpl implements BookService {
 			if(b.getStatus() == StatusEnum.DISABLE){
 				b.setStatus(StatusEnum.ACTIVE);
 			}	
-			
 		}
 		bookDao.save(b);
 	}
@@ -135,8 +141,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void disableBook(Integer id) throws BookNotFoundException {
 		// TODO Auto-generated method stub
-		final Book b = transform(findbyId(id));
-		//Comprobar que un libro no este alquilado por un usuario (¿?)
+		final Book b = bookDao.findOne(id);
 		if(b.getStatus()== null){
 			b.setStatus(StatusEnum.DISABLE);
 		}
@@ -144,7 +149,6 @@ public class BookServiceImpl implements BookService {
 			if(b.getStatus() == StatusEnum.ACTIVE){
 				b.setStatus(StatusEnum.DISABLE);
 			}	
-			
 		}
 		bookDao.save(b);
 	}
@@ -223,5 +227,26 @@ public class BookServiceImpl implements BookService {
 		resbook.setImage(json_content.getJSONObject("imageLinks").get("thumbnail").toString());
 	
 		return resbook;
+	}
+
+	@Override
+	public BookDTO findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException {
+		// TODO Auto-generated method stub
+		log.debug(String.format("HOLA"));
+		//	log.debug(String.format("Resultado de Buscar por Titulo: %s", findByTitle(title)).toString());
+		BookDTO book;
+		if(title == null && isbn == null)
+			return new BookDTO();
+		if(title != null && isbn == null){
+			log.debug(String.format("Resultado de Buscar por Titulo: %s", findByTitle(title)));
+			book = findByTitle(title);
+			return book;
+		}
+		if(title == null && isbn != null){
+			book = findByIsbn(isbn);
+		}
+		//book=findByTitleAndIsbn(title,isbn); BUscar
+		return new BookDTO();
+		//return null;
 	}
 }

@@ -43,7 +43,7 @@ public interface BookService {
 	 * @throws BookNotFoundException 
 	 * */
 	
-	BookDTO create(BookDTO book);
+	BookDTO create(BookDTO book) throws BookNotFoundException;
 
 	/**
 	 * Borrar un libroDTO 
@@ -120,6 +120,8 @@ public interface BookService {
 	List<BookDTO> findBooksAvailable();
 
 	BookDTO findInGoogle(String title) throws JSONException, ParseException;
+
+	BookDTO findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException;
 	
 
 }
