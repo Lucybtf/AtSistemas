@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.at.library.dto.BookDTO;
@@ -19,9 +20,17 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	 *  - author
 	 *  - disponibilidad
 	 * */
-	@Query("select b from Book as b")
-	Book findByTitle(String title);
-	Book findByIsbn(String isbn);
+	
+	@Query("select b from Book as b where (b.title like %:title%) and b.status!= 'DISABLE'")
+	List<Book> findByTitle(@Param("title")String title);
+	//@Query("select b from Book as b where b.isbn like %:isbn% and b.status!= 'DISABLE")
+	@Query("select b from Book as b where (b.isbn like %:isbn%) and b.status = 'ACTIVE'")
+	List<Book> findByIsbn(@Param("isbn")String isbn);
+	
+	//@Query("select b from Book as b WHERE (b.isbn like %:isbn% OR :isbn is NULL) AND (b.title like %:title% OR :title is NULL)")
+	@Query("select b from Book as b where ((:isbn is NULL or b.title like %:title%) and (:title is NULL or b.isbn like %:isbn%))")
+	List<Book> findByTitleAndIsbn(@Param("title")String title,@Param("isbn")String isbn);
+	
 	Book findByAuthor(String author);
 	
 	//@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b where (b.id=?1 and b.status ='ACTIVE')")
