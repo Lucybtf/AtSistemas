@@ -94,7 +94,7 @@ public interface BookService {
 	 * @return Devuelve un libro
 	 * @throws BookNotFoundException 
 	 */
-	BookDTO findByTitle(String title) throws BookNotFoundException;
+	//BookDTO findByTitle(String title) throws BookNotFoundException;
 
 	/**
 	 * Busqueda por Isbn
@@ -102,7 +102,7 @@ public interface BookService {
 	 * @return Devuelve un libro
 	 * @throws BookNotFoundException 
 	 */
-	BookDTO findByIsbn(String isbn) throws BookNotFoundException;
+	//BookDTO findByIsbn(String isbn) throws BookNotFoundException;
 	
 	/**
 	 * Busqueda por autor
@@ -119,9 +119,11 @@ public interface BookService {
 	 */
 	List<BookDTO> findBooksAvailable();
 
-	BookDTO findInGoogle(String title) throws JSONException, ParseException;
+	List<BookDTO> findInGoogle(String title) throws JSONException, ParseException;
 
-	BookDTO findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException;
+	List<BookDTO> findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException, JSONException, ParseException;
+
+	List<BookDTO> listBookDTOs(Iterable<Book> findAll);
 	
 
 }
