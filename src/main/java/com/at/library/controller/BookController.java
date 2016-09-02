@@ -38,7 +38,7 @@ public class BookController {
 	
 	//Crear
 	@RequestMapping( method = { RequestMethod.POST })
-	public BookDTO create(@RequestBody BookDTO book) {
+	public BookDTO create(@RequestBody BookDTO book) throws BookNotFoundException {
 		log.debug(String.format("Vamos a crear el libro siguiente", book));
 		return bookservice.create(book) ;
 	}
@@ -64,7 +64,36 @@ public class BookController {
 		bookservice.delete(id);
 	}
 	
-/*	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
+	@RequestMapping( method = { RequestMethod.GET}, params={"title", "isbn"})
+	public BookDTO findByTitleAndIsbn(@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException{
+		log.debug(String.format("Devolver los libros con titulo: %s, %s", title, isbn));
+		//log.debug(String.format("Devolver los libros con isbn: %s", isbn));
+		return bookservice.findByTitleAndIsbn(title, isbn);
+	}
+	
+/*	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
+	public List<BookDTO> findBooksAvailable(){
+		log.debug(String.format("Devolvemos todos los libros disponibles"));
+		return bookservice.findBooksAvailable();
+	}*/
+	
+	/*Obtener los campos de Google*/
+/*	@RequestMapping(value="/findInGoogle", method = {RequestMethod.POST}, params={"title"})
+	public BookDTO findInGoogle(@RequestParam(value="title")String title) throws JSONException, ParseException{
+		log.debug(String.format("Devolvemos un libro dado el titulo: %s", title));
+		return bookservice.findInGoogle(title);	
+	}*/
+	
+	/*@RequestMapping(method = { RequestMethod.GET}, params={"author"})
+	public BookDTO findByAuthor(@RequestParam(value="author")String author) throws BookNotFoundException{
+		log.debug(String.format("Devolver los libros con author: %s", author));
+		final Book book =bookservice.transform(bookservice.findByAuthor(author));
+		if(book == null) throw new BookNotFoundException();
+		return bookservice.findByAuthor(author);
+	}*/
+	
+	
+	/*	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
 	public void activeBook(@PathVariable("id")Integer id){
 		log.debug(String.format("Activar el libro dado la siguiente id: %s", id));
 		bookservice.activeBook(id);
@@ -84,42 +113,5 @@ public class BookController {
 		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
 		return bookservice.checkAvailability(id);
 	}*/
-	
-	@RequestMapping( method = { RequestMethod.GET}, params={"title"})
-	public BookDTO findByTitle(@RequestParam(value="title")String title) throws BookNotFoundException{
-		log.debug(String.format("Devolver los libros con titulo: %s", title));
-		final Book book =bookservice.transform(bookservice.findByTitle(title));
-		if(book == null) throw new BookNotFoundException();
-		return bookservice.findByTitle(title);
-	}
-	
-	@RequestMapping( method = { RequestMethod.GET}, params={"isbn"})
-	public BookDTO findByIsbn(@RequestParam(value="isbn")String isbn) throws BookNotFoundException{
-		log.debug(String.format("Devolver los libros con isbn: %s", isbn));
-		final Book book =bookservice.transform(bookservice.findByIsbn(isbn));
-		if(book == null) throw new BookNotFoundException();
-		return bookservice.findByIsbn(isbn);
-	}
-	
-	@RequestMapping(method = { RequestMethod.GET}, params={"author"})
-	public BookDTO findByAuthor(@RequestParam(value="author")String author) throws BookNotFoundException{
-		log.debug(String.format("Devolver los libros con author: %s", author));
-		final Book book =bookservice.transform(bookservice.findByAuthor(author));
-		if(book == null) throw new BookNotFoundException();
-		return bookservice.findByAuthor(author);
-	}
-	
-	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
-	public List<BookDTO> findBooksAvailable(){
-		log.debug(String.format("Devolvemos todos los libros disponibles"));
-		return bookservice.findBooksAvailable();
-	}
-	
-	/*Obtener los campos de Google*/
-	@RequestMapping(value="/findInGoogle", method = {RequestMethod.POST}, params={"title"})
-	public BookDTO findInGoogle(@RequestParam(value="title")String title) throws JSONException, ParseException{
-		log.debug(String.format("Devolvemos un libro dado el titulo: %s", title));
-		return bookservice.findInGoogle(title);	
-	}
 	
 }
