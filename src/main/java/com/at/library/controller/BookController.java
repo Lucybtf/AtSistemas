@@ -30,11 +30,11 @@ public class BookController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
-	@RequestMapping( method = { RequestMethod.GET })
+	/*@RequestMapping( method = { RequestMethod.GET })
 	public List<BookDTO> getAll() {
 		log.debug("Buscando todos los libros del sistema");
 		return bookservice.findAll();
-	}
+	}*/
 	
 	//Crear
 	@RequestMapping( method = { RequestMethod.POST })
@@ -64,10 +64,9 @@ public class BookController {
 		bookservice.delete(id);
 	}
 	
-	@RequestMapping( method = { RequestMethod.GET}, params={"title", "isbn"})
-	public BookDTO findByTitleAndIsbn(@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException{
-		log.debug(String.format("Devolver los libros con titulo: %s, %s", title, isbn));
-		//log.debug(String.format("Devolver los libros con isbn: %s", isbn));
+	@RequestMapping( method = { RequestMethod.GET})//, params={"title", "isbn"})
+	public List<BookDTO> findBookBy(@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException, JSONException, ParseException{
+		log.debug(String.format("Titulo, ISBN: %s, %s", title, isbn));
 		return bookservice.findByTitleAndIsbn(title, isbn);
 	}
 	
