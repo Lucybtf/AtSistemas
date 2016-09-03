@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -171,10 +171,10 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<BookDTO> findInGoogle(String title) throws JSONException, ParseException  {
+	public List<BookDTO> findInGoogle(String title, Integer page, Integer size) throws JSONException, ParseException  {
 		// TODO Auto-generated method stub
 		log.debug(String.format("Buscamos en la BD cuantos libros tengo"));
-		List<Book> booksfinded=bookDao.findByTitle(title);
+		List<Book> booksfinded=bookDao.findByTitle(title, new PageRequest(page-1,size));
 		final List<BookDTO> listDTOs = new ArrayList<>(); //LISTA CON LAS SOLUCIONES
 		
 		//Si existe en la BD, ha encontrado algun resultado en la lista de libros
@@ -261,7 +261,7 @@ public class BookServiceImpl implements BookService {
 	
 	
 	@Override
-	public List<BookDTO> findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException, JSONException, ParseException {
+	public List<BookDTO> findByTitleAndIsbn(Integer page, Integer size,String title, String isbn) throws BookNotFoundException, JSONException, ParseException {
 		// TODO Auto-generated method stub
 		log.debug(String.format("HOLA"));
 		//List<BookDTO> res = new ArrayList<>();
@@ -269,26 +269,34 @@ public class BookServiceImpl implements BookService {
 		//BUSQUEDA POR GOOGLE(FUNCIONA YA PERFECTAMENTE): res = findInGoogle(title);
 		Iterable<Book> findAll;
 		List<BookDTO> listend;
-		if(title!=null && isbn!=null){
-			findAll = bookDao.findByTitleAndIsbn(title, isbn);
+		if(page!=null && size!=null){
+			
+			if(title!=null && isbn!=null){
+				findAll = bookDao.findByTitleAndIsbn(title, isbn, new PageRequest(page-1,size)); //PAGINA
+				listend = listBookDTOs(findAll);
+				return listend;
+			}
+			if(title!=null && isbn== null){
+				log.debug(String.format("TITULO NADA MAS"));
+				listend =findInGoogle(title, page, size); //NO PAGINA
+				return listend;
+			}
+			if(title==null && isbn!=null){
+				log.debug(String.format("ISBN NADA MAS"));
+				findAll = bookDao.findByIsbn(isbn, new PageRequest(page-1,size)); //PAGINA
+				listend = listBookDTOs(findAll);
+				//log.debug(String.format("ISBN: %s", findAll));
+				return listend;
+			}
+			//log.debug(String.format("PAGE: %s", bookDao.findAll(new PageRequest(page, size))));
+			findAll = bookDao.findAll(new PageRequest(page-1,size)); //PAGINA
+			listend = listBookDTOs(findAll);
+			return listend;
+		}else{
+			findAll = bookDao.findAll();
 			listend = listBookDTOs(findAll);
 			return listend;
 		}
-		if(title!=null && isbn== null){
-			log.debug(String.format("TITULO NADA MAS"));
-			listend =findInGoogle(title); //FUNCIONA PERO VER PORQUE LECHES NO ME VA EL FindTitle normal
-			return listend;
-		}
-		if(title==null && isbn!=null){
-			log.debug(String.format("ISBN NADA MAS"));
-			findAll = bookDao.findByIsbn(isbn);
-			listend = listBookDTOs(findAll);
-			//log.debug(String.format("ISBN: %s", findAll));
-			return listend;
-		}
-		findAll = bookDao.findAll();
-		listend = listBookDTOs(findAll);
-		return listend;
 	}
 
 	@Override

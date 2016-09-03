@@ -120,9 +120,9 @@ public interface BookService {
 	 */
 	List<BookDTO> findBooksAvailable();
 
-	List<BookDTO> findInGoogle(String title) throws JSONException, ParseException;
+	List<BookDTO> findInGoogle(String title, Integer page, Integer size) throws JSONException, ParseException;
 
-	List<BookDTO> findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException, JSONException, ParseException;
+	List<BookDTO> findByTitleAndIsbn(Integer page, Integer size,String title, String isbn) throws BookNotFoundException, JSONException, ParseException;
 
 	List<BookDTO> listBookDTOs(Iterable<Book> findAll);
 

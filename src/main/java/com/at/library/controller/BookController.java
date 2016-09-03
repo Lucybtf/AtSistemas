@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,8 +69,7 @@ public class BookController {
 	@RequestMapping( method = { RequestMethod.GET})//, params={"title", "isbn"})
 	public List<BookDTO> findBookBy(@RequestParam(value="page",required = false)Integer page,@RequestParam(value="size",required = false)Integer size,@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException, JSONException, ParseException{
 		log.debug(String.format("Titulo, ISBN:%s %s %s, %s", page, size, title, isbn));
-		 List<BookDTO> books=bookservice.findByTitleAndIsbn(page, size, title, isbn);
-		 return books;
+		 return bookservice.findByTitleAndIsbn(page, size, title, isbn);
 	}
 	
 	@RequestMapping(value="/{id}/rent", method = { RequestMethod.GET})
