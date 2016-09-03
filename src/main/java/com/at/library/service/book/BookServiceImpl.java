@@ -29,6 +29,7 @@ import org.springframework.web.client.RestTemplate;
 import com.at.library.controller.BookController;
 import com.at.library.dao.BookDao;
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentMigrationDTO;
 import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
@@ -152,26 +153,6 @@ public class BookServiceImpl implements BookService {
 		}
 		bookDao.save(b);
 	}
-	
-	
-	
-
-/*	@Override
-	public BookDTO findByTitle(String title) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final List<Book> book = bookDao.findByTitle(title);
-		log.debug(String.format("LIBRO", transform(book)));
-		if(book == null) throw new BookNotFoundException();
-		return transform(bookDao.findByTitle(title));
-	}*/
-
-	/*@Override
-	public BookDTO findByIsbn(String isbn) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final Book book = bookDao.findByIsbn(isbn);
-		if(book == null) throw new BookNotFoundException();
-		return transform(bookDao.findByIsbn(isbn));
-	}*/
 
 	@Override
 	public BookDTO findByAuthor(String author) throws BookNotFoundException {
@@ -223,17 +204,37 @@ public class BookServiceImpl implements BookService {
 				resbook.setStatus(checkAvailability(bookit.getId()));
 				JSONObject json_content= json.getJSONArray("items").getJSONObject(i).getJSONObject("volumeInfo");
 				//log.debug(String.format("JSON:", json_content.toString()));
-				log.debug(String.format("Devolvemos fecha de publicación: %s", json_content.get("publishedDate")));
-				log.debug(String.format("Devolvemos descripcion: %s", json_content.get("description")));
-				log.debug(String.format("Devolvemos imagen: %s", json_content.getJSONObject("imageLinks").get("thumbnail") ));
-				DateTimeFormatter df =DateTimeFormat.forPattern("yyyy-MM-dd"); 
-				long millis = df.parseMillis(json_content.get("publishedDate").toString()); 
-				DateTime dt = new DateTime(millis);
+				//log.debug(String.format("Devolvemos fecha de publicación: %s", json_content.get("publishedDate")));
+				//log.debug(String.format("Devolvemos descripcion: %s", json_content.get("description")));
+				//log.debug(String.format("Devolvemos imagen: %s", json_content.getJSONObject("imageLinks").get("thumbnail") ));
 				
-				resbook.setYear(dt.getYear());
-				resbook.setDescription(json_content.get("description").toString());
-				resbook.setImage(json_content.getJSONObject("imageLinks").get("thumbnail").toString());
-				log.debug(String.format("Devolvemos el primer Libro: %s", resbook));
+				if(json_content.has("publishedDate")){
+					if (json_content.get("publishedDate").toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
+						DateTimeFormatter df =DateTimeFormat.forPattern("yyyy-MM-dd"); 
+						long millis = df.parseMillis(json_content.get("publishedDate").toString()); 
+						DateTime dt = new DateTime(millis);
+						resbook.setYear(dt.getYear());
+					}
+					if (json_content.get("publishedDate").toString().matches("\\d{4}-\\d{2}")) {
+						DateTimeFormatter df =DateTimeFormat.forPattern("yyyy-MM"); 
+						long millis = df.parseMillis(json_content.get("publishedDate").toString()); 
+						DateTime dt = new DateTime(millis);
+						resbook.setYear(dt.getYear());
+					}
+					if (json_content.get("publishedDate").toString().matches("\\d{4}")) {
+						DateTimeFormatter df =DateTimeFormat.forPattern("yyyy"); 
+						long millis = df.parseMillis(json_content.get("publishedDate").toString()); 
+						DateTime dt = new DateTime(millis);
+						resbook.setYear(dt.getYear());
+					}
+					
+				}
+				if(json_content.has("description")){
+					resbook.setDescription(json_content.get("description").toString());
+				}
+				if(json_content.getJSONObject("imageLinks").has("thumbnail"))
+					resbook.setImage(json_content.getJSONObject("imageLinks").get("thumbnail").toString());
+				//log.debug(String.format("Devolvemos el primer Libro: %s", resbook));
 				listDTOs.add(resbook);
 				i++;
 				 
@@ -242,18 +243,19 @@ public class BookServiceImpl implements BookService {
 		return listDTOs;
 	}
 
+	//Convertido una lista de Books en BookDTOS
 	@Override
 	public List<BookDTO> listBookDTOs(Iterable<Book> findAll){
 		
 		final Iterator<Book> iterator = findAll.iterator();
-		final List<BookDTO> ressult = new ArrayList<>();
+		final List<BookDTO> result = new ArrayList<>();
 		while (iterator.hasNext()) {
 			final Book b = iterator.next();
 			final BookDTO bDTO = transform(b);
 			bDTO.setStatus(checkAvailability(bDTO.getId()));
-			ressult.add(bDTO);
+			result.add(bDTO);
 		}
-		return ressult;
+		return result;
 	}
 	
 	
@@ -287,59 +289,32 @@ public class BookServiceImpl implements BookService {
 		findAll = bookDao.findAll();
 		listend = listBookDTOs(findAll);
 		return listend;
-		//BUSQUEDA POR DOS PARAMETROS
-		//final <Book> findAll = bookDao.findByTitleAndIsbn(title, isbn);
-		/*log.debug(String.format("LIBRO VACIO:",bookDao.findByTitle(title)));
-		final Iterable<Book> findAll = bookDao.findByTitleAndIsbn(title, isbn);
-		final Iterator<Book> iterator = findAll.iterator();
-		while (iterator.hasNext()) {
-			final Book b = iterator.next();
-			log.debug(String.format("LIBRO:", b.toString()));
-		}*/
-		//final Iterator<Book> iterator = findAll.iterator();
-		
-		/*final Iterable<Book> findAll = bookDao.findByTitleAndIsbn(title, isbn);
-		
-		final List<BookDTO> res = new ArrayList<>();
-		while (iterator.hasNext()) {
-			final Book b = iterator.next();
-			log.debug(String.format("BookDTO"));
-			
-			if(title != null)
-			{
-				log.debug(String.format("BookDTO",findInGoogle(title) ));
-				final List<BookDTO> bDTO=findInGoogle(title);
-				//bDTO.setStatus(checkAvailability(bDTO.getId()));
-				//res.add(bDTO);
-			}
-			else  
-			{
-				final BookDTO bDTO = transform(b);
-				bDTO.setStatus(checkAvailability(bDTO.getId()));
-				res.add(bDTO);
-			}
-			
-			
-		}*/
-		
-	//	return res;
-		//log.debug(String.format("Resultado de Buscar por Titulo: %s"));
-		//if(title != null)
-			//log.debug(String.format("Resultado de Buscar por Titulo: %s", bookDao.findByTitle(title)));
-		/*if(title == null && isbn == null)
-			return new BookDTO();
-		if(title != null && isbn == null){
-			log.debug(String.format("Resultado de Buscar por Titulo: %s", findByTitle(title)));
-			book = findByTitle(title);
-			return book;
-		}
-		if(title == null && isbn != null){
-			book = findByIsbn(isbn);
-		}*/
-		//book=findByTitleAndIsbn(title,isbn); BUscar
-		//return books;
-		//return null;
 	}
+
+	@Override
+	public List<HistoryRentedDTO> HistoryRentedBook(Integer id){
+		List<HistoryRentedDTO> books= new ArrayList();
+		books= bookDao.HistoryRentedBook(id);
+		return books;
+		
+	}
+	
+/*	@Override
+	public BookDTO findByTitle(String title) throws BookNotFoundException {
+		// TODO Auto-generated method stub
+		final List<Book> book = bookDao.findByTitle(title);
+		log.debug(String.format("LIBRO", transform(book)));
+		if(book == null) throw new BookNotFoundException();
+		return transform(bookDao.findByTitle(title));
+	}*/
+
+	/*@Override
+	public BookDTO findByIsbn(String isbn) throws BookNotFoundException {
+		// TODO Auto-generated method stub
+		final Book book = bookDao.findByIsbn(isbn);
+		if(book == null) throw new BookNotFoundException();
+		return transform(bookDao.findByIsbn(isbn));
+	}*/
 
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
@@ -124,6 +125,8 @@ public interface BookService {
 	List<BookDTO> findByTitleAndIsbn(String title, String isbn) throws BookNotFoundException, JSONException, ParseException;
 
 	List<BookDTO> listBookDTOs(Iterable<Book> findAll);
+
+	List<HistoryRentedDTO> HistoryRentedBook(Integer id);
 	
 
 }
