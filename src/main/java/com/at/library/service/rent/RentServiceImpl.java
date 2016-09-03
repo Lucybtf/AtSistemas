@@ -9,6 +9,7 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.at.library.controller.RentController;
@@ -126,9 +127,12 @@ public class RentServiceImpl implements RentService {
 	}
 
 	@Override
-	public List<HistoryRentedDTO> RentsHistory() {
+	public List<HistoryRentedDTO> RentsHistory(Integer page, Integer size) {
 		// TODO Auto-generated method stub
-		return rentDao.RentsHistory();
+		if(page!=null && size!=null)
+			return rentDao.RentsHistory(new PageRequest(page-1,size)).getContent();
+		else
+			return rentDao.RentsHistory(new PageRequest(0,10)).getContent();
 	}
 	
 	@Override

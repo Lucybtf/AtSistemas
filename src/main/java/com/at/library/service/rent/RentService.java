@@ -44,6 +44,8 @@ public interface RentService {
 
 	/**
 	 * Historial de Alquileres
+	 * @param size 
+	 * @param page 
 	 * @return Devuelve los alquileres 
 	 */
 	//List<RentDTO> rentBookHistory(Integer idbook);
@@ -52,6 +54,6 @@ public interface RentService {
 
 	//List<HistoryRentedDTO> listRentsDTOs(Iterable<Rent> findAll);
 
-	List<HistoryRentedDTO> RentsHistory();
+	List<HistoryRentedDTO> RentsHistory(Integer page, Integer size);
 
 }
