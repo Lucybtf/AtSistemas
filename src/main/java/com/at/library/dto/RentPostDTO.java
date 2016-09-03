@@ -5,6 +5,15 @@ public class RentPostDTO extends DTO{
 	private Integer book;
 	private Integer user;
 	
+	public RentPostDTO(){
+		
+	}
+	
+	public RentPostDTO(Integer id, Integer id2) {
+		// TODO Auto-generated constructor stub
+		this.book=id;
+		this.user=id2;
+	}
 	public Integer getLibro() {
 		return book;
 	}

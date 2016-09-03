@@ -16,8 +16,11 @@ import com.at.library.dao.BookDao;
 import com.at.library.dao.RentDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.EmployeeDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
+import com.at.library.dto.RentPostDTO;
 import com.at.library.dto.UserDTO;
+import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.EmployeeNotFoundException;
@@ -58,6 +61,9 @@ public class RentServiceImpl implements RentService {
 	
 	@Autowired
 	private DozerBeanMapper dozer;
+	
+	@Autowired
+	private DozerBeanMapper dozer1;
 
 	/**
 	 * ¿Qué necesitamos para alquilar un libro?
@@ -71,55 +77,62 @@ public class RentServiceImpl implements RentService {
 	 * @throws EmployeeNotFoundException 
 	 * */
 	@Override
-	public RentDTO create(RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
+	public RentPostDTO create(RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		//Obtenemos los DTOs de Employee, UserDTO y BookDTO
 		//PENDIENTE: Comprobar que el Usuario exista, que el Empleado exista y que el BookExista y no este Alquilado
 		final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
 		final UserDTO user = userService.findbyId(rentDto.getIdUser());
 		final BookDTO book = bookService.findbyId(rentDto.getIdBook());
 		
-		System.out.println(bookService.checkAvailability(rentDto.getIdBook()));
-		log.debug(String.format("Disponibilidad:", bookService.checkAvailability(rentDto.getIdBook())));
+		log.debug(String.format("EMPLEADO: %s", employee.toString()));
+		log.debug(String.format("USER: %s", user.toString()));
+		log.debug(String.format("BOOK: %s", book.toString()));
+		
 		//Compruebo primero si el Libro está disponible
-		if(bookService.checkAvailability(rentDto.getIdBook())=="OK")
+		if(book.getStatus()=="OK")
 		{
 			//Creamos un objeto Rent
+			log.debug(String.format("El libro esta disponible para alquilar"));
 			Rent r = new Rent();
 			RentPK rpk= new RentPK();
-			rpk.setBook(bookService.transform(book));
-			rpk.setInitDate(new Date());
+			
+			book.setStatus(null); //Vacio el status para establecer el status
+			rpk.setBook(bookService.transform(book)); //Le asigno el BookDTO tranformado a Book
+			rpk.setInitDate(new Date()); //Cojo la Fecha del Servidor
 			r.setRentpk(rpk);
-			r.setEmployee(employeeService.transform(employee));
-			r.setUser(userService.transform(user));
-			//r.setBook(bookService.transform(book)); //Le asigno el BookDTO tranformado a Book
-			//r.setEmployee(employeeService.transform(employee)); //Le asigno el EmployeeDTO transformado a Employee
-			//r.setUser(userService.transform(user)); // Le asigno el UserDTO transformado a User
-			//r.setInitDate(new Date()); //Cojo la Fecha del Servidor
+			r.setEmployee(employeeService.transform(employee)); //Le asigno el EmployeeDTO transformado a Employee
+			r.setUser(userService.transform(user)); // Le asigno el UserDTO transformado a User
 			r.setEndDate(null); //Inicializo a Null porque no se ha devuelto
 			
-			//Resumo en una línea guardo el objeto r creado y lo tranformo a RentDTO que es lo que devuelve la función
-			return transform(rentDao.save(r));
-			//return new RentDTO();
+			//Guardo el objeto en BD
+			rentDao.save(r);
+		
+			return new RentPostDTO(bookService.transform(book).getId(),userService.transform(user).getId());
 		}
-		else return new RentDTO();
+		else{
+			log.debug(String.format("El libro NO esta disponible para alquilar")); //¿Tendría que lanzar una excepcion?
+			return new RentPostDTO();
+		}
+		
 	}
 	
+	//Devolución de un libro : Buscar el Libro, colocar la fecha 
 	@Override
-	public void delete(Integer idrent) {
+	public void delete(Integer idrentbook) {
 		// TODO Auto-generated method stub
-		//Comprobamos que no este alquilado y que no este activo
-	//	final BookDTO b=bookService.findbyId(idrent);
-		//NO esta alquilado y el estado del libro es active
-		/*if((bookService.checkAvailability(idrent)== true && bookService.transform(b).getStatus()==StatusEnum.ACTIVE) ||
-				//NO esta alquilado y el estado del libro es disable
-		(bookService.checkAvailability(idrent)== true && bookService.transform(b).getStatus()==StatusEnum.DISABLE))
-		{
-			bookService.delete(b.getId());
-		}*/
+		final Rent rentend=rentDao.findByBook(idrentbook);
+		rentend.setEndDate(new Date());
+		//MIrar si el usuario se ha pasado del numero de días de alquiler y castigarlo en ese caso CRON
+		rentDao.save(rentend);
 		
-	
 	}
 
+	@Override
+	public List<HistoryRentedDTO> RentsHistory() {
+		// TODO Auto-generated method stub
+		return rentDao.RentsHistory();
+	}
+	
 	@Override
 	public RentDTO transform(Rent rent) {
 		return dozer.map(rent, RentDTO.class);
@@ -130,7 +143,6 @@ public class RentServiceImpl implements RentService {
 		return dozer.map(rent, Rent.class);
 	}
 
-
 	public Integer diferenceBetweenDays(Date day1, Date day2){
 		
 		long days2=(day1.getTime()-day2.getTime())/(24 * 60 * 60 * 1000);
@@ -138,14 +150,14 @@ public class RentServiceImpl implements RentService {
 	}
 	
 	
-	//Devolución de un libro : Buscar el Libro, Comprobar que el Libro es del Usuario
-	@Override
+	
+	/*@Override
 	public void returnBook(Integer idbook) {
 		// TODO Auto-generated method stub
 		
 		final Rent rent= new Rent();
 		final RentPK rentpk=new RentPK();
-		
+		*/
 		/*final RentDTO r = rentDao.findByBook(idbook);
 		final Employee e=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
 		final User u=userService.transform(userService.findbyId(r.getIdUser()));
@@ -160,14 +172,14 @@ public class RentServiceImpl implements RentService {
 		rent.setUser(u);
 		rent.setEndDate(new Date());*/
 			
-		rentDao.save(rent);
+	//	rentDao.save(rent);
 		
-	}
+	//}
 
-	@Override
+	/*@Override
 	public List<RentDTO> rentBookHistory(Integer idbook) {
 		// TODO Auto-generated method stub
 		return rentDao.findByBook(idbook);
-	}
+	}*/
 	
 }

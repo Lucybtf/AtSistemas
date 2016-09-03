@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.dto.RentDTO;
+import com.at.library.dto.RentPostDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.EmployeeNotFoundException;
@@ -27,36 +29,27 @@ public class RentController {
 
 	private static final Logger log = LoggerFactory.getLogger(RentController.class);
 	
-	//LA LOGICA VA EN EL SERVICIO
+	
 	@Autowired
 	private RentService rentService;
 	
-//	@Autowired
-//	private BookService bookService;
-	
-	//URL DELETE(DEVOLUCION):"/rent/{idbook}"
 	
 	@RequestMapping( method = { RequestMethod.POST})
-	public RentDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
+	public RentPostDTO create(@RequestBody RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		log.debug(String.format("Creamos el siguiente Alquiler", rentDto));
 		return rentService.create(rentDto);
 	}
 	
-	@RequestMapping( method = { RequestMethod.DELETE})
+	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE})
 	public void delete(@PathVariable("id")Integer idrent){
-		log.debug(String.format("Eliminar el Alquiler con el id: %s", idrent));
+		log.debug(String.format("Devolución del Alquiler con el id del Book: %s", idrent));
 		rentService.delete(idrent);
 	}
 	
-	@RequestMapping( value="/{id}", method = { RequestMethod.PUT })
-	public void returnBook(@PathVariable("id")Integer idBook){
-		log.debug(String.format("Buscando el Rent cuyo idBook es  %s",  idBook));
-		rentService.returnBook(idBook);
+	@RequestMapping(method = { RequestMethod.GET})
+	public List<HistoryRentedDTO> RentsHistory(){
+		log.debug(String.format("Mostramos todos los alquileres"));
+		return rentService.RentsHistory();
 	}
 	
-	@RequestMapping(value="/{id}", method = { RequestMethod.GET})
-	public List<RentDTO> rentBookHistory(@PathVariable("id") Integer idbook){
-		log.debug(String.format("Historial de Alquileres de un Libro: %s", idbook));
-		return rentService.rentBookHistory(idbook);
-	}
 }
