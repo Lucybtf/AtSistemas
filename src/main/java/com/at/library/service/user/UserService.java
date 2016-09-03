@@ -11,8 +11,9 @@ public interface UserService {
 
 	/** 
 	 * Crea un usuario
+	 * @throws UserNotFoundException 
 	 **/
-	UserDTO create(UserDTO user);
+	UserDTO create(UserDTO user) throws UserNotFoundException;
 
 	/** 
 	 * Elimina un usuario por su id
@@ -54,13 +55,22 @@ public interface UserService {
 	 * @return
 	 * @throws UserNotFoundException 
 	 */
-	UserDTO findbyDni(String dni) throws UserNotFoundException;
+	//UserDTO findbyDni(String dni) throws UserNotFoundException;
 
 	void punishedUser();
 
 	void forgiveUser();
 
-	UserDTO findbyName(String name) throws UserNotFoundException;
+	//UserDTO findbyName(String name) throws UserNotFoundException;
+
+	//UserDTO findby(String dni, String name);
+
+
+	List<UserDTO> findBy(String dni, String name);
+
+	List<UserDTO> listUserDTOs(Iterable<User> findAll);
+
+	
 
 	
 

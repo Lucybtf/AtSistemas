@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.at.library.controller.UserController;
+import com.at.library.dao.BookDao;
 import com.at.library.dao.UserDao;
 import com.at.library.dto.BookDTO;
 import com.at.library.dto.UserDTO;
@@ -34,8 +35,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private DozerBeanMapper dozer;
 	
-	public UserDTO create(UserDTO userDTO){
+	public UserDTO create(UserDTO userDTO) throws UserNotFoundException{
 		final User user=transform(userDTO);
+		activeUser(user.getId());
 		return transform(userDao.save(user));
 	}
 	
@@ -55,7 +57,8 @@ public class UserServiceImpl implements UserService{
 		final User u= userDao.findOne(id);
 		if (u == null) 
 			throw new UserNotFoundException();
-			userDao.delete(id);
+		disableUser(id);
+			//userDao.delete(id);
 	}
 
 	@Override
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void activeUser(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		final User u = transform(findbyId(id));
+		final User u = userDao.findOne(id);
 		if(u.getStatususer()== null){
 			u.setStatususer(StatusEnum.ACTIVE);
 		}
@@ -86,7 +89,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void disableUser(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		final User u = transform(findbyId(id));
+		final User u = userDao.findOne(id);
 		if(u.getStatususer()== null){
 			u.setStatususer(StatusEnum.DISABLE);
 		}
@@ -99,21 +102,21 @@ public class UserServiceImpl implements UserService{
 		userDao.save(u);
 	}
 
-	@Override
+	/*@Override
 	public UserDTO findbyDni(String dni) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		final User u = userDao.findByDni(dni);
+		final List<User> u = userDao.findByDni(dni);
 		if(u == null) throw new UserNotFoundException();
 		return transform(u);
-	}
+	}*/
 	
-	@Override
+/*	@Override
 	public UserDTO findbyName(String name) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u = userDao.findByName(name);
 		if(u == null) throw new UserNotFoundException();
 		return transform(u);
-	}
+	}*/
 	
 	
 	//Castigar a todos los usuarios que se hayan pasado en el Alquiler
@@ -128,5 +131,35 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	@Override
+	public List<UserDTO> listUserDTOs(Iterable<User> findAll){
+		
+		final Iterator<User> iterator = findAll.iterator();
+		final List<UserDTO> result = new ArrayList<>();
+		while (iterator.hasNext()) {
+			final User b = iterator.next();
+			final UserDTO bDTO = transform(b);
+			result.add(bDTO);
+		}
+		return result;
+	}
+	
+	@Override
+	public List<UserDTO> findBy(String dni, String name) {
+		// TODO Auto-generated method stub
+		List<UserDTO> users=new ArrayList<UserDTO>();
+		Iterable<User> findAll;
+		if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
+			
+			findAll= userDao.findByDniAndName(dni, name);
+			users=listUserDTOs(findAll);
+			return users;
+		}
+		findAll= userDao.findAll();
+		users=listUserDTOs(findAll);
+		return users;
+		
+	}
 
+	
 }

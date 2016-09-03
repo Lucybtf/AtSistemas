@@ -45,7 +45,7 @@ public class UserController {
 	
 	//Comprobar que el JSON viene mal estructurado
 	@RequestMapping( method = { RequestMethod.POST })
-	public UserDTO create(@RequestBody UserDTO user) {
+	public UserDTO create(@RequestBody UserDTO user) throws UserNotFoundException {
 		log.debug(String.format("Vamos a crear el Usuario", user));
 		return userService.create(user);
 	}
@@ -58,17 +58,17 @@ public class UserController {
 	}
 	
 //	@ExceptionHandler(UserNotFoundException.class)
-	@RequestMapping( method = {RequestMethod.GET}, params={"dni"})
-	public UserDTO findByDni(@RequestParam(value="dni")String dni) throws UserNotFoundException{
-		log.debug(String.format("Buscando el Usuario con el dni %s", dni));
-		return userService.findbyDni(dni);
+	@RequestMapping( method = {RequestMethod.GET})
+	public List<UserDTO> findBy(@RequestParam(value="dni", required = false)String dni,@RequestParam(value="name", required = false)String name) throws UserNotFoundException{
+		log.debug(String.format("Buscando el Usuario con el dni %s y nombre %s", dni, name));
+		return userService.findBy(dni, name);
 	}
 	
-	@RequestMapping( method = {RequestMethod.GET}, params={"name"})
+/*	@RequestMapping( method = {RequestMethod.GET}, params={"name"})
 	public UserDTO findByName(@RequestParam(value="name")String name) throws UserNotFoundException{
 		log.debug(String.format("Buscando el Usuario con el nombre %s", name));
 		return userService.findbyName(name);
-	}
+	}*/
 	
 	/*ACTIVE Y DISABLE VA EN EL SERVICIO PERO NO EN EL CONTROLADOR*/
 	/*@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
