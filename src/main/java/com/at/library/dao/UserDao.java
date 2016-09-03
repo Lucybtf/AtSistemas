@@ -2,6 +2,8 @@ package com.at.library.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,8 +22,9 @@ public interface UserDao extends CrudRepository<User, Integer> {
 	List<User> findByName(@Param("name")String name);
 
 	@Query("select u from User as u  where (u.statususer = 'ACTIVE' and ((u.dni like %:dni% or u.dni is null) or (u.name like %:name% or u.name is null))) ")
-	List<User> findByDniAndName(@Param("dni")String dni, @Param("name")String name);
+	Page<User> findByDniAndName(@Param("dni")String dni, @Param("name")String name, Pageable pageable);
 	
 	@Query("select u from User as u  where u.statususer = 'ACTIVE')")
-	List<User> findAll();
+	Page<User> findAll(Pageable pageable);
+	
 }

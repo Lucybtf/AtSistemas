@@ -40,6 +40,7 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	//@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b where (b.id=?1 and b.status ='ACTIVE')")
 	//Book findOne(Integer id);
 	
+	
 	@Query("select b from Book as b  where (b.status = 'ACTIVE')")
 	Page<Book> findAll(Pageable pageable);
 	

@@ -4,6 +4,9 @@ package com.at.library.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -26,6 +29,6 @@ public interface RentDao extends CrudRepository<Rent, Integer>{
 	Rent findByBook(Integer idbook);
 
 	@Query("select new com.at.library.dto.HistoryRentedDTO(r.rentpk.initDate, r.endDate, r.rentpk.book.title, r.rentpk.book.id) from Rent as r where r.rentpk.book.status = 'ACTIVE'")
-	List<HistoryRentedDTO> RentsHistory();
+	Page<HistoryRentedDTO> RentsHistory(Pageable pageable);
 
 }
