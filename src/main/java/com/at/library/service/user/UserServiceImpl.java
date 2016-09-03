@@ -8,6 +8,7 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.at.library.controller.UserController;
@@ -145,19 +146,27 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public List<UserDTO> findBy(String dni, String name) {
+	public List<UserDTO> findBy(Integer page, Integer size,String dni, String name) {
 		// TODO Auto-generated method stub
 		List<UserDTO> users=new ArrayList<UserDTO>();
 		Iterable<User> findAll;
-		if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
+		if(page!=null && size!=null){
+			if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
+				
+				findAll= userDao.findByDniAndName(dni, name, new PageRequest(page-1,size));
+				users=listUserDTOs(findAll);
+				return users;
+			}
 			
-			findAll= userDao.findByDniAndName(dni, name);
+			findAll= userDao.findAll(new PageRequest(page-1,size));
 			users=listUserDTOs(findAll);
 			return users;
 		}
-		findAll= userDao.findAll();
-		users=listUserDTOs(findAll);
-		return users;
+		else{
+			findAll= userDao.findAll(new PageRequest(0,10)); //Volver a poner en el DAO para que me devuelva todos los usuarios/books/user activos
+			users=listUserDTOs(findAll);
+			return users;
+		}
 		
 	}
 

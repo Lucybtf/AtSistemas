@@ -66,9 +66,11 @@ public interface UserService {
 	//UserDTO findby(String dni, String name);
 
 
-	List<UserDTO> findBy(String dni, String name);
+	//List<UserDTO> findBy(String dni, String name);
 
 	List<UserDTO> listUserDTOs(Iterable<User> findAll);
+
+	List<UserDTO> findBy(Integer page, Integer size, String dni, String name);
 
 	
 
