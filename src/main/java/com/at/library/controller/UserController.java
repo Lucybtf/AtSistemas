@@ -59,9 +59,9 @@ public class UserController {
 	
 //	@ExceptionHandler(UserNotFoundException.class)
 	@RequestMapping( method = {RequestMethod.GET})
-	public List<UserDTO> findBy(@RequestParam(value="dni", required = false)String dni,@RequestParam(value="name", required = false)String name) throws UserNotFoundException{
+	public List<UserDTO> findBy(@RequestParam(value="page",required = false)Integer page,@RequestParam(value="size",required = false)Integer size,@RequestParam(value="dni", required = false)String dni,@RequestParam(value="name", required = false)String name) throws UserNotFoundException{
 		log.debug(String.format("Buscando el Usuario con el dni %s y nombre %s", dni, name));
-		return userService.findBy(dni, name);
+		return userService.findBy(page,size,dni, name);
 	}
 	
 /*	@RequestMapping( method = {RequestMethod.GET}, params={"name"})
