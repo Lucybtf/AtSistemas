@@ -3,6 +3,8 @@ package com.at.library.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,14 +26,14 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	 * */
 	
 	@Query("select b from Book as b where (b.title like %:title%) and b.status!= 'DISABLE'")
-	List<Book> findByTitle(@Param("title")String title);
+	List<Book> findByTitle(@Param("title")String title, Pageable pageable);
 	//@Query("select b from Book as b where b.isbn like %:isbn% and b.status!= 'DISABLE")
 	@Query("select b from Book as b where (b.isbn like %:isbn%) and b.status = 'ACTIVE'")
-	List<Book> findByIsbn(@Param("isbn")String isbn);
+	Page<Book> findByIsbn(@Param("isbn")String isbn, Pageable pageable);
 	
 	@Query("select b from Book as b where (b.isbn like %:isbn% OR :isbn is null) AND (b.title like %:title% OR :title is null)")
 	//@Query("select b from Book as b where ((:isbn is NULL or b.title like %:title%) and (:title is NULL or b.isbn like %:isbn%))")
-	List<Book> findByTitleAndIsbn(@Param("title")String title,@Param("isbn")String isbn);
+	Page<Book> findByTitleAndIsbn(@Param("title")String title,@Param("isbn")String isbn, Pageable pageable);
 	
 	Book findByAuthor(String author);
 	
@@ -39,7 +41,7 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	//Book findOne(Integer id);
 	
 	@Query("select b from Book as b  where (b.status = 'ACTIVE')")
-	List<Book> findAll();
+	Page<Book> findAll(Pageable pageable);
 	
 	@Query("select new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) from Book as b where b.id in (select r.rentpk.book.id from Rent as r where r.endDate is not null)")
 	List<BookDTO> findBooksAvailable();
