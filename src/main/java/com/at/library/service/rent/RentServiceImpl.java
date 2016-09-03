@@ -62,8 +62,6 @@ public class RentServiceImpl implements RentService {
 	@Autowired
 	private DozerBeanMapper dozer;
 	
-	@Autowired
-	private DozerBeanMapper dozer1;
 
 	/**
 	 * ¿Qué necesitamos para alquilar un libro?
