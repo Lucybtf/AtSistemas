@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
 		if (u == null) 
 			throw new UserNotFoundException();
 		disableUser(id);
-			//userDao.delete(id);
+		//userDao.delete(id);
 	}
 
 	@Override
