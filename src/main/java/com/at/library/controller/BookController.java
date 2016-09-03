@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.at.library.dto.BookDTO;
+import com.at.library.dto.HistoryRentedDTO;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
@@ -68,6 +69,12 @@ public class BookController {
 	public List<BookDTO> findBookBy(@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException, JSONException, ParseException{
 		log.debug(String.format("Titulo, ISBN: %s, %s", title, isbn));
 		return bookservice.findByTitleAndIsbn(title, isbn);
+	}
+	
+	@RequestMapping(value="/{id}/rent", method = { RequestMethod.GET})
+	public List<HistoryRentedDTO> HistoryRentedBook(@PathVariable("id")Integer id){
+		log.debug(String.format("Historial de Alquiler del Book: %s %s", id,bookservice.HistoryRentedBook(id) ));
+		return bookservice.HistoryRentedBook(id);
 	}
 	
 /*	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
