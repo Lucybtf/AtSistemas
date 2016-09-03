@@ -66,9 +66,10 @@ public class BookController {
 	}
 	
 	@RequestMapping( method = { RequestMethod.GET})//, params={"title", "isbn"})
-	public List<BookDTO> findBookBy(@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException, JSONException, ParseException{
-		log.debug(String.format("Titulo, ISBN: %s, %s", title, isbn));
-		return bookservice.findByTitleAndIsbn(title, isbn);
+	public List<BookDTO> findBookBy(@RequestParam(value="page",required = false)Integer page,@RequestParam(value="size",required = false)Integer size,@RequestParam(value="title",required = false)String title, @RequestParam(value="isbn",required = false)String isbn) throws BookNotFoundException, JSONException, ParseException{
+		log.debug(String.format("Titulo, ISBN:%s %s %s, %s", page, size, title, isbn));
+		 List<BookDTO> books=bookservice.findByTitleAndIsbn(page, size, title, isbn);
+		 return books;
 	}
 	
 	@RequestMapping(value="/{id}/rent", method = { RequestMethod.GET})
