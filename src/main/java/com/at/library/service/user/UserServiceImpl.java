@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.at.library.controller.UserController;
@@ -20,15 +22,17 @@ import com.at.library.enums.StatusEnum;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.User;
+import com.at.library.service.book.BookServiceImpl;
 import com.at.library.exceptions.UserNotFoundException;
 /**
  * @author Lucia Batista Flores
  *
  */
 @Service
+@EnableScheduling
 public class UserServiceImpl implements UserService{
 
-
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	private UserDao userDao;
@@ -66,8 +70,7 @@ public class UserServiceImpl implements UserService{
 	public UserDTO findbyId(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u=userDao.findOne(id);
-		if (u == null) 
-			throw new UserNotFoundException();
+		if (u == null) throw new UserNotFoundException();
 		return transform(u);
 	}
 
@@ -122,14 +125,17 @@ public class UserServiceImpl implements UserService{
 	
 	//Castigar a todos los usuarios que se hayan pasado en el Alquiler
 	@Override
+	@Scheduled(cron = "0 * * * * ?")
+	//@Scheduled(cron = "0 0/1 * * * ?" )
 	public void punishedUser(){
-		
+		log.debug(String.format("Cron de Castigo de Usuarios"));
 	}
 	
 	//Perdonar a todos los Usuarios que haya pasado su castigo
 	@Override
+	@Scheduled(cron = "0 * * * * ?")
 	public void forgiveUser(){
-		
+		log.debug(String.format("Cron de Perdonar de Usuarios"));
 	}
 
 	@Override
@@ -163,6 +169,12 @@ public class UserServiceImpl implements UserService{
 			return users;
 		}
 		else{
+			if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
+				
+				findAll= userDao.findByDniAndName(dni, name, new PageRequest(0,100));
+				users=listUserDTOs(findAll);
+				return users;
+			}
 			findAll= userDao.findAll(new PageRequest(0,10)); //Volver a poner en el DAO para que me devuelva todos los usuarios/books/user activos
 			users=listUserDTOs(findAll);
 			return users;
