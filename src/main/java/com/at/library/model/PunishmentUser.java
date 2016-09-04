@@ -62,6 +62,20 @@ public class PunishmentUser implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Integer getPunishmentdays() {
+		return punishmentdays;
+	}
+
+	public void setPunishmentdays(Integer punishmentdays) {
+		this.punishmentdays = punishmentdays;
+	}
+
+	/*@Override
+	public String toString() {
+		return "PunishmentUser [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", punishmentdays="
+				+ punishmentdays + ", user=" + user + "]";
+	}*/
 	
 	
 
