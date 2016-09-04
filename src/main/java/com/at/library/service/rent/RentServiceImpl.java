@@ -79,7 +79,7 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public RentPostDTO create(RentDTO rentDto) throws UserNotFoundException, BookNotFoundException, EmployeeNotFoundException{
 		//Obtenemos los DTOs de Employee, UserDTO y BookDTO
-		//PENDIENTE: Comprobar que el Usuario exista, que el Empleado exista y que el BookExista y no este Alquilado
+		
 		final EmployeeDTO employee = employeeService.findbyId(rentDto.getIdEmployee());
 		final UserDTO user = userService.findbyId(rentDto.getIdUser());
 		final BookDTO book = bookService.findbyId(rentDto.getIdBook());
@@ -110,7 +110,7 @@ public class RentServiceImpl implements RentService {
 			return new RentPostDTO(bookService.transform(book).getId(),userService.transform(user).getId());
 		}
 		else{
-			log.debug(String.format("El libro NO esta disponible para alquilar")); //¿Tendría que lanzar una excepcion?
+			log.debug(String.format("El libro NO esta disponible para alquilar")); 
 			return new RentPostDTO();
 		}
 		
@@ -147,18 +147,5 @@ public class RentServiceImpl implements RentService {
 		return dozer.map(rent, Rent.class);
 	}
 
-	public Integer diferenceBetweenDays(Date day1, Date day2){
-		
-		long days2=(day1.getTime()-day2.getTime())/(24 * 60 * 60 * 1000);
-		return (int)days2;
-	}
-	
-
-
-	/*@Override
-	public List<RentDTO> rentBookHistory(Integer idbook) {
-		// TODO Auto-generated method stub
-		return rentDao.findByBook(idbook);
-	}*/
 	
 }

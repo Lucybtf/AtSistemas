@@ -18,7 +18,7 @@ public interface RentService {
 
 	/**
 	 * Crea un alquiler
-	 * @return Devuelve un RentDTO
+	 * @return Devuelve un RentPostDTO
 	 * @throws UserNotFoundException 
 	 * @throws BookNotFoundException 
 	 * @throws EmployeeNotFoundException 
@@ -27,22 +27,24 @@ public interface RentService {
 
 	/**
 	 * Borrar un alquiler dado un id
-	 * @return
+	 * @param id
 	 * @throws RentNotFoundException 
 	 */
 	void delete(Integer idrentbook) throws RentNotFoundException;
 
-	
+	/**
+	 * Transforma de RentDTO a Rent
+	 * @param rent
+	 * @return Rent
+	 */
 	Rent transform(RentDTO rent);
 
-	RentDTO transform(Rent rent);
-
 	/**
-	 * Devolución de un Libro
-	 * @param idlibro
+	 * Transforma de Rent a RentDTO
+	 * @param rent
+	 * @return RentDTO
 	 */
-
-	//void returnBook(Integer idlibro);
+	RentDTO transform(Rent rent);
 
 	/**
 	 * Historial de Alquileres
@@ -50,12 +52,7 @@ public interface RentService {
 	 * @param page 
 	 * @return Devuelve los alquileres 
 	 */
-	//List<RentDTO> rentBookHistory(Integer idbook);
-
-	//List<RentDTO> findAll();
-
-	//List<HistoryRentedDTO> listRentsDTOs(Iterable<Rent> findAll);
-
 	List<HistoryRentedDTO> RentsHistory(Integer page, Integer size);
+	
 
 }
