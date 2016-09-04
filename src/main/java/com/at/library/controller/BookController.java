@@ -84,12 +84,6 @@ public class BookController {
 		return bookservice.findBooksAvailable();
 	}*/
 	
-	/*Obtener los campos de Google*/
-/*	@RequestMapping(value="/findInGoogle", method = {RequestMethod.POST}, params={"title"})
-	public BookDTO findInGoogle(@RequestParam(value="title")String title) throws JSONException, ParseException{
-		log.debug(String.format("Devolvemos un libro dado el titulo: %s", title));
-		return bookservice.findInGoogle(title);	
-	}*/
 	
 	/*@RequestMapping(method = { RequestMethod.GET}, params={"author"})
 	public BookDTO findByAuthor(@RequestParam(value="author")String author) throws BookNotFoundException{
@@ -112,9 +106,7 @@ public class BookController {
 		bookservice.disableBook(id);
 	}*/
 	
-	/** No me queda claro como poner las url, en el caso de disponibilidad entiendo que solo se usa en el servicio
-	 * pero en el caso de las busquedas ¿como estaría correcta la url?
-	 */
+
 	/*@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
 	public boolean checkAvailability(@PathVariable("id")Integer id){
 		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
