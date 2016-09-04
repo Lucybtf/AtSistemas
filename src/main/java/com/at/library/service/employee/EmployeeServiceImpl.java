@@ -29,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private DozerBeanMapper dozer;
 	
-	//Comprobar que el JSON viene con el formato adecuado
+	
 	@Override
 	public EmployeeDTO create(EmployeeDTO emplDTO) {
 		final Employee em=transform(emplDTO);
@@ -60,8 +60,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if(e == null) throw new EmployeeNotFoundException();
 		employeeDao.delete(id);
 	}
-
-
 
 
 }
