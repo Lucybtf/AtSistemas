@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService{
 			DateTime dt=new DateTime(pu.getEndDate()); //Probado con la fecha de inicio en vez de con la de fin
 			DateTime da= new DateTime();
 			
-			if(dt.getDayOfMonth()==da.getDayOfMonth()){
+			if(dt.getDayOfMonth()==da.getDayOfMonth() && dt.getMonthOfYear()==da.getMonthOfYear() && dt.getYear()==da.getYear()){
 				
 				u.setStatususer(StatusEnum.ACTIVE);
 				userDao.save(u);
