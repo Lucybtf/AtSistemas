@@ -6,7 +6,7 @@ import java.io.Serializable;
 import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
 
-public class BookDTO extends DTO {
+public class BookDTO extends DTO{
 
 	private static final long serialVersionUID = 1583585532736761521L;
 
