@@ -242,52 +242,38 @@ public class BookServiceImpl implements BookService {
 		
 		Iterable<Book> findAll;
 		List<BookDTO> listend;
-		if(page!=null && size!=null){
-			
-			if(title!=null && isbn!=null){
-				findAll = bookDao.findByTitleAndIsbn(title, isbn, new PageRequest(page-1,size)); //PAGINA
-				listend = listBookDTOs(findAll);
-				return listend;
-			}
-			if(title!=null && isbn== null){
-				log.debug(String.format("TITULO NADA MAS"));
-				listend =findInGoogle(title, page, size); //NO PAGINA
-				return listend;
-			}
-			if(title==null && isbn!=null){
-				log.debug(String.format("ISBN NADA MAS"));
-				findAll = bookDao.findByIsbn(isbn, new PageRequest(page-1,size)); //PAGINA
-				listend = listBookDTOs(findAll);
-				//log.debug(String.format("ISBN: %s", findAll));
-				return listend;
-			}
-			findAll = bookDao.findAll(new PageRequest(page-1,size)); //PAGINA
-			listend = listBookDTOs(findAll);
-			return listend;
-		}else{
-			log.debug(String.format("PAGE Y SIZE NULOS"));
-			if(title!=null && isbn!=null){
-				findAll = bookDao.findByTitleAndIsbn(title, isbn, new PageRequest(0,100)); 
-				listend = listBookDTOs(findAll);
-				return listend;
-			}
-			if(title!=null && isbn== null){
-				log.debug(String.format("TITULO NADA MAS"));
-				listend =findInGoogle(title, 1, 100); 
-				return listend;
-			}
-			if(title==null && isbn!=null){
-				log.debug(String.format("ISBN NADA MAS"));
-				findAll = bookDao.findByIsbn(isbn, new PageRequest(0,100)); 
-				listend = listBookDTOs(findAll);
-				return listend;
-			}
-			log.debug(String.format("PAGE Y SIZE NULOS"));
-			findAll = bookDao.findAll(new PageRequest(0,100));
+		Integer pageend = null;
+		Integer sizeend = null;
+		if(page==null && size==null){
+			pageend=1;
+			sizeend=100;
+		}
+		else{
+			pageend=page;
+			sizeend=size;
+		}
+		if(title!=null && isbn!=null){
+			findAll = bookDao.findByTitleAndIsbn(title, isbn, new PageRequest(pageend-1,sizeend));
 			listend = listBookDTOs(findAll);
 			return listend;
 		}
+		if(title!=null && isbn== null){
+			log.debug(String.format("TITULO NADA MAS"));
+			listend =findInGoogle(title, pageend, sizeend);
+			return listend;
+		}
+		if(title==null && isbn!=null){
+			log.debug(String.format("ISBN NADA MAS"));
+			findAll = bookDao.findByIsbn(isbn, new PageRequest(pageend-1,sizeend)); 
+			listend = listBookDTOs(findAll);
+				//log.debug(String.format("ISBN: %s", findAll));
+			return listend;
+		}
+		findAll = bookDao.findAll(new PageRequest(pageend-1,sizeend)); 
+		listend = listBookDTOs(findAll);
+		return listend;	
 	}
+	
 
 	@Override
 	public List<HistoryRentedDTO> HistoryRentedBook(Integer id){
@@ -296,39 +282,6 @@ public class BookServiceImpl implements BookService {
 		return books;
 		
 	}
-
-/*	@Override
-	public BookDTO findByTitle(String title) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final List<Book> book = bookDao.findByTitle(title);
-		log.debug(String.format("LIBRO", transform(book)));
-		if(book == null) throw new BookNotFoundException();
-		return transform(bookDao.findByTitle(title));
-	}*/
-
-	/*@Override
-	public BookDTO findByIsbn(String isbn) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final Book book = bookDao.findByIsbn(isbn);
-		if(book == null) throw new BookNotFoundException();
-		return transform(bookDao.findByIsbn(isbn));
-	}*/
-	
-	/*@Override
-	public BookDTO findByAuthor(String author) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final Book book = bookDao.findByAuthor(author);
-		if(book == null) throw new BookNotFoundException();
-		return transform(book);
-	}*/
-
-	/*@Override
-	public List<BookDTO> findBooksAvailable() {
-		// TODO Auto-generated method stub
-		log.debug("Mostramos el listado de libros disponibles");
-		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
-		return bookDao.findBooksAvailable();
-	}*/
 
 	
 }

@@ -32,24 +32,12 @@ public class BookController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
-	/*@RequestMapping( method = { RequestMethod.GET })
-	public List<BookDTO> getAll() {
-		log.debug("Buscando todos los libros del sistema");
-		return bookservice.findAll();
-	}*/
 	
 	//Crear
 	@RequestMapping( method = { RequestMethod.POST })
 	public BookDTO create(@RequestBody BookDTO book) throws BookNotFoundException {
 		log.debug(String.format("Vamos a crear el libro siguiente", book));
 		return bookservice.create(book) ;
-	}
-	
-	//Recuperar
-	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
-	public BookDTO findOne(@PathVariable("id")Integer id) throws BookNotFoundException{
-		log.debug(String.format("Buscando el libro con el id %s", id));
-		return bookservice.findbyId(id);
 	}
 	
 	//Modificar
@@ -78,39 +66,5 @@ public class BookController {
 		return bookservice.HistoryRentedBook(id);
 	}
 	
-/*	@RequestMapping( value="/findBooksAvailable", method = { RequestMethod.GET})
-	public List<BookDTO> findBooksAvailable(){
-		log.debug(String.format("Devolvemos todos los libros disponibles"));
-		return bookservice.findBooksAvailable();
-	}*/
-	
-	
-	/*@RequestMapping(method = { RequestMethod.GET}, params={"author"})
-	public BookDTO findByAuthor(@RequestParam(value="author")String author) throws BookNotFoundException{
-		log.debug(String.format("Devolver los libros con author: %s", author));
-		final Book book =bookservice.transform(bookservice.findByAuthor(author));
-		if(book == null) throw new BookNotFoundException();
-		return bookservice.findByAuthor(author);
-	}*/
-	
-	
-	/*	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
-	public void activeBook(@PathVariable("id")Integer id){
-		log.debug(String.format("Activar el libro dado la siguiente id: %s", id));
-		bookservice.activeBook(id);
-	}
-	
-	@RequestMapping( value="/disable/{id}", method = { RequestMethod.PUT })
-	public void disableBook(@PathVariable("id")Integer id){
-		log.debug(String.format("Desactivar el libro dado la siguiente id: %s", id));
-		bookservice.disableBook(id);
-	}*/
-	
-
-	/*@RequestMapping( value="/availability/{id}", method = { RequestMethod.GET})
-	public boolean checkAvailability(@PathVariable("id")Integer id){
-		log.debug(String.format("Comprobar la disponibilidad del Libro id: %s", id));
-		return bookservice.checkAvailability(id);
-	}*/
 	
 }
