@@ -78,8 +78,6 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookDTO create(BookDTO bookDTO) throws BookNotFoundException {
 		final Book book=transform(bookDTO);
-		//book.setStatus(StatusEnum.ACTIVE); AQUI LLAMAMOS A ACTIVAR LIBRO
-		
 		final BookDTO bookend=transform(bookDao.save(book));
 		activeBook(bookend.getId());
 		bookend.setStatus(checkAvailability(bookend.getId()));
@@ -107,9 +105,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public String checkAvailability(Integer id){
-	//	log.debug(String.format("Disponibilidad de libro(ACTIVE/DISABLE): %s", bookDao.findOne(id)));
 		log.debug(String.format("Disponibilidad para alquilar y que este activo: %s", bookDao.checkAvailability(id)));
-		//return  ((bookDao.findOne(id).getStatus() == StatusEnum.ACTIVE) && (bookDao.checkAvailability(id)==id))?"RENTED":"OK";
 		return (bookDao.checkAvailability(id)==id)?"RENTED":"OK";
 	}
 	
@@ -154,34 +150,33 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(b);
 	}
 
-	@Override
+	/*@Override
 	public BookDTO findByAuthor(String author) throws BookNotFoundException {
 		// TODO Auto-generated method stub
 		final Book book = bookDao.findByAuthor(author);
 		if(book == null) throw new BookNotFoundException();
 		return transform(book);
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public List<BookDTO> findBooksAvailable() {
 		// TODO Auto-generated method stub
 		log.debug("Mostramos el listado de libros disponibles");
 		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
 		return bookDao.findBooksAvailable();
-	}
+	}*/
 
 	@Override
 	public List<BookDTO> findInGoogle(String title, Integer page, Integer size) throws JSONException, ParseException  {
 		// TODO Auto-generated method stub
-		log.debug(String.format("Buscamos en la BD cuantos libros tengo"));
+	
 		List<Book> booksfinded=bookDao.findByTitle(title, new PageRequest(page-1,size));
 		final List<BookDTO> listDTOs = new ArrayList<>(); //LISTA CON LAS SOLUCIONES
 		
 		//Si existe en la BD, ha encontrado algun resultado en la lista de libros
 		if(booksfinded.size()>0){
-			log.debug(String.format("LIbros encontrados: %s", booksfinded));
+			
 			RestTemplate restemplate = new RestTemplate();
-			log.debug("Hacemos la peticion");
 			String url="https://www.googleapis.com/books/v1/volumes?q="+ title + "&maxResults="+ booksfinded.size();
 			log.debug(String.format("URL: %s",url));
 			ResponseEntity<String> res= restemplate.getForEntity(url, String.class);
@@ -189,7 +184,7 @@ public class BookServiceImpl implements BookService {
 			//log.debug(String.format("Devolvemos el objeto: %s",res));
 			
 			JSONObject json= new JSONObject(res.getBody().toString());
-			log.debug(String.format("Devolvemos el objeto: %s",json.getJSONArray("items")));
+			//log.debug(String.format("Devolvemos el objeto: %s",json.getJSONArray("items")));
 			Iterator<Book> it = booksfinded.iterator();
 			int i=0;
 			while (it.hasNext() && i<booksfinded.size()) {
@@ -203,11 +198,7 @@ public class BookServiceImpl implements BookService {
 				resbook.setIsbn(bookit.getIsbn());
 				resbook.setStatus(checkAvailability(bookit.getId()));
 				JSONObject json_content= json.getJSONArray("items").getJSONObject(i).getJSONObject("volumeInfo");
-				//log.debug(String.format("JSON:", json_content.toString()));
-				//log.debug(String.format("Devolvemos fecha de publicación: %s", json_content.get("publishedDate")));
-				//log.debug(String.format("Devolvemos descripcion: %s", json_content.get("description")));
-				//log.debug(String.format("Devolvemos imagen: %s", json_content.getJSONObject("imageLinks").get("thumbnail") ));
-				
+		
 				if(json_content.has("publishedDate")){
 					if (json_content.get("publishedDate").toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
 						DateTimeFormatter df =DateTimeFormat.forPattern("yyyy-MM-dd"); 
@@ -234,7 +225,7 @@ public class BookServiceImpl implements BookService {
 				}
 				if(json_content.getJSONObject("imageLinks").has("thumbnail"))
 					resbook.setImage(json_content.getJSONObject("imageLinks").get("thumbnail").toString());
-				//log.debug(String.format("Devolvemos el primer Libro: %s", resbook));
+				
 				listDTOs.add(resbook);
 				i++;
 				 
@@ -263,10 +254,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<BookDTO> findByTitleAndIsbn(Integer page, Integer size,String title, String isbn) throws BookNotFoundException, JSONException, ParseException {
 		// TODO Auto-generated method stub
-		log.debug(String.format("HOLA"));
-		//List<BookDTO> res = new ArrayList<>();
 		
-		//BUSQUEDA POR GOOGLE(FUNCIONA YA PERFECTAMENTE): res = findInGoogle(title);
 		Iterable<Book> findAll;
 		List<BookDTO> listend;
 		if(page!=null && size!=null){
@@ -288,12 +276,29 @@ public class BookServiceImpl implements BookService {
 				//log.debug(String.format("ISBN: %s", findAll));
 				return listend;
 			}
-			//log.debug(String.format("PAGE: %s", bookDao.findAll(new PageRequest(page, size))));
 			findAll = bookDao.findAll(new PageRequest(page-1,size)); //PAGINA
 			listend = listBookDTOs(findAll);
 			return listend;
 		}else{
-			findAll = bookDao.findAll();
+			log.debug(String.format("PAGE Y SIZE NULOS"));
+			if(title!=null && isbn!=null){
+				findAll = bookDao.findByTitleAndIsbn(title, isbn, new PageRequest(0,100)); 
+				listend = listBookDTOs(findAll);
+				return listend;
+			}
+			if(title!=null && isbn== null){
+				log.debug(String.format("TITULO NADA MAS"));
+				listend =findInGoogle(title, 1, 100); 
+				return listend;
+			}
+			if(title==null && isbn!=null){
+				log.debug(String.format("ISBN NADA MAS"));
+				findAll = bookDao.findByIsbn(isbn, new PageRequest(0,100)); 
+				listend = listBookDTOs(findAll);
+				return listend;
+			}
+			log.debug(String.format("PAGE Y SIZE NULOS"));
+			findAll = bookDao.findAll(new PageRequest(0,100));
 			listend = listBookDTOs(findAll);
 			return listend;
 		}
@@ -306,7 +311,7 @@ public class BookServiceImpl implements BookService {
 		return books;
 		
 	}
-	
+
 /*	@Override
 	public BookDTO findByTitle(String title) throws BookNotFoundException {
 		// TODO Auto-generated method stub
