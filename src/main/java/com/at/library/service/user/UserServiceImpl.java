@@ -51,8 +51,9 @@ public class UserServiceImpl implements UserService{
 	
 	public UserDTO create(UserDTO userDTO) throws UserNotFoundException{
 		final User user=transform(userDTO);
+		userDao.save(user);
 		activeUser(user.getId());
-		return transform(userDao.save(user));
+		return transform(user);
 	}
 	
 	@Override
@@ -69,8 +70,7 @@ public class UserServiceImpl implements UserService{
 	public void delete(Integer id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		final User u= userDao.findOne(id);
-		if (u == null) 
-			throw new UserNotFoundException();
+		if (u == null) throw new UserNotFoundException();
 		disableUser(id);
 		//userDao.delete(id);
 	}
@@ -194,47 +194,38 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		List<UserDTO> users=new ArrayList<UserDTO>();
 		Iterable<User> findAll;
-		if(page!=null && size!=null){
-			if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
-				
-				findAll= userDao.findByDniAndName(dni, name, new PageRequest(page-1,size));
-				users=listUserDTOs(findAll);
-				return users;
-			}
-			
-			findAll= userDao.findAll(new PageRequest(page-1,size));
-			users=listUserDTOs(findAll);
-			return users;
+		Integer pageend = null;
+		Integer sizeend = null;
+		if(page==null && size==null){
+			pageend=1;
+			sizeend=100;
 		}
 		else{
-			if(dni!= null && name!=null || dni!= null && name==null || dni==null &&  name!=null){
-				
-				findAll= userDao.findByDniAndName(dni, name, new PageRequest(0,100));
-				users=listUserDTOs(findAll);
-				return users;
-			}
-			findAll= userDao.findAll(new PageRequest(0,10)); //Volver a poner en el DAO para que me devuelva todos los usuarios/books/user activos
+			pageend=page;
+			sizeend=size;
+		}
+		//log.debug(String.format("Valores %s %s", pageend, sizeend));
+		
+		if(dni!= null && name!=null ){	
+			findAll= userDao.findByDniAndName(dni, name, new PageRequest(pageend-1,sizeend));
 			users=listUserDTOs(findAll);
 			return users;
 		}
+		if( dni!= null && name==null ){
+			findAll= userDao.findByDni(dni, new PageRequest(pageend-1,sizeend));
+			users=listUserDTOs(findAll);
+			return users;
+		}
+		if(dni==null &&  name!=null){
+			findAll= userDao.findByName(name, new PageRequest(pageend-1,sizeend));
+			users=listUserDTOs(findAll);
+			return users;
+		}	
+		findAll= userDao.findAll(new PageRequest(pageend-1,sizeend));
+		users=listUserDTOs(findAll);
+		return users;
 		
 	}
 	
-	/*@Override
-	public UserDTO findbyDni(String dni) throws UserNotFoundException {
-		// TODO Auto-generated method stub
-		final List<User> u = userDao.findByDni(dni);
-		if(u == null) throw new UserNotFoundException();
-		return transform(u);
-	}*/
-	
-/*	@Override
-	public UserDTO findbyName(String name) throws UserNotFoundException {
-		// TODO Auto-generated method stub
-		final User u = userDao.findByName(name);
-		if(u == null) throw new UserNotFoundException();
-		return transform(u);
-	}*/
 
-	
 }
