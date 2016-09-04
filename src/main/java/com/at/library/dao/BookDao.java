@@ -35,7 +35,7 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	//@Query("select b from Book as b where ((:isbn is NULL or b.title like %:title%) and (:title is NULL or b.isbn like %:isbn%))")
 	Page<Book> findByTitleAndIsbn(@Param("title")String title,@Param("isbn")String isbn, Pageable pageable);
 	
-	Book findByAuthor(String author);
+	//Book findByAuthor(String author);
 	
 	//@Query("select new com.at.library.model.Book(b.id, b.isbn, b.title, b.author) from Book as b where (b.id=?1 and b.status ='ACTIVE')")
 	//Book findOne(Integer id);
@@ -44,15 +44,13 @@ public interface BookDao extends CrudRepository<Book, Integer> {
 	@Query("select b from Book as b  where (b.status = 'ACTIVE')")
 	Page<Book> findAll(Pageable pageable);
 	
-	@Query("select new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) from Book as b where b.id in (select r.rentpk.book.id from Rent as r where r.endDate is not null)")
-	List<BookDTO> findBooksAvailable();
+	//@Query("select new com.at.library.dto.BookDTO(b.id, b.isbn, b.title, b.author) from Book as b where b.id in (select r.rentpk.book.id from Rent as r where r.endDate is not null)")
+	//List<BookDTO> findBooksAvailable();
 	
 	/**
 	 * Devuelve el id de los libros que  están alquilados y no están activos en la base de datos
 	 */
-	//@Query(value = "SELECT r.pk.book.id FROM Rent AS r, Book AS b WHERE (r.endDate IS null AND r.pk.book.id = ?1) OR (b.id = ?1 AND b.status = 'DISABLE')")
 	@Query("select r.rentpk.book.id from Rent as r, Book as b where (r.endDate is null and r.rentpk.book.id=?1) or (b.id=?1 and b.status = 'DISABLE')")
-//	@Query("select r.rentpk.book.id from Rent as r, Book as b where (r.endDate is null and r.rentpk.book.id=?1)")
 	Integer checkAvailability(Integer id);
 	
 

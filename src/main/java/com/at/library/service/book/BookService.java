@@ -15,34 +15,30 @@ public interface BookService {
 
 	/**
 	 * Realiza la busqueda de todos los libros existentes
-	 * 
-	 * @return listado de libros
+	 * @return listado de BookDTOs
 	 */
 	List<BookDTO> findAll();
 
 	/**
-	 * Transfrma un libro en un libroDTO
-	 * 
+	 * Transforma Book en BookDTO
 	 * @param book
-	 * @return
+	 * @return BookDTO
 	 */
 	BookDTO transform(Book book);
 
 	/**
-	 * Transforma un libroDTO en un libro
-	 * 
+	 * Transforma BookDTO en Book
 	 * @param book
-	 * @return
+	 * @return Book
 	 */
 	Book transform(BookDTO book);
 
 	/**
-	 *  Crear un libroDTO 
+	 *  Crear un BookDTO 
 	 *  @param book
-	 *  @return Devuelve un BookDTO
+	 *  @return BookDTO
 	 * @throws BookNotFoundException 
 	 * */
-	
 	BookDTO create(BookDTO book) throws BookNotFoundException;
 
 	/**
@@ -88,13 +84,6 @@ public interface BookService {
 	 * */
 	String checkAvailability(Integer id);
 
-	//BookDTO findByTitle(String title) throws BookNotFoundException;
-
-	//BookDTO findByIsbn(String isbn) throws BookNotFoundException;
-	
-	//BookDTO findByAuthor(String author) throws BookNotFoundException;
-
-	//List<BookDTO> findBooksAvailable();
 	/**
 	 * Busqueda en Google
 	 * @param title
@@ -138,4 +127,11 @@ public interface BookService {
 	List<HistoryRentedDTO> HistoryRentedBook(Integer id);
 	
 
+	//BookDTO findByTitle(String title) throws BookNotFoundException;
+
+	//BookDTO findByIsbn(String isbn) throws BookNotFoundException;
+		
+	//BookDTO findByAuthor(String author) throws BookNotFoundException;
+
+	//List<BookDTO> findBooksAvailable();
 }

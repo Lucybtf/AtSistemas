@@ -150,21 +150,6 @@ public class BookServiceImpl implements BookService {
 		bookDao.save(b);
 	}
 
-	/*@Override
-	public BookDTO findByAuthor(String author) throws BookNotFoundException {
-		// TODO Auto-generated method stub
-		final Book book = bookDao.findByAuthor(author);
-		if(book == null) throw new BookNotFoundException();
-		return transform(book);
-	}*/
-
-	/*@Override
-	public List<BookDTO> findBooksAvailable() {
-		// TODO Auto-generated method stub
-		log.debug("Mostramos el listado de libros disponibles");
-		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
-		return bookDao.findBooksAvailable();
-	}*/
 
 	@Override
 	public List<BookDTO> findInGoogle(String title, Integer page, Integer size) throws JSONException, ParseException  {
@@ -327,6 +312,22 @@ public class BookServiceImpl implements BookService {
 		final Book book = bookDao.findByIsbn(isbn);
 		if(book == null) throw new BookNotFoundException();
 		return transform(bookDao.findByIsbn(isbn));
+	}*/
+	
+	/*@Override
+	public BookDTO findByAuthor(String author) throws BookNotFoundException {
+		// TODO Auto-generated method stub
+		final Book book = bookDao.findByAuthor(author);
+		if(book == null) throw new BookNotFoundException();
+		return transform(book);
+	}*/
+
+	/*@Override
+	public List<BookDTO> findBooksAvailable() {
+		// TODO Auto-generated method stub
+		log.debug("Mostramos el listado de libros disponibles");
+		log.debug(String.format("Libros: ", bookDao.findBooksAvailable()));
+		return bookDao.findBooksAvailable();
 	}*/
 
 	
