@@ -42,16 +42,4 @@ private static final Logger log = LoggerFactory.getLogger(UserController.class);
 		employeeService.delete(user);
 	}
 	
-	/*
-	@RequestMapping( value="/active/{id}", method = { RequestMethod.PUT })
-	public void activeUser(@PathVariable("id")Integer id){
-		employeeService.activeUser(id);
-	}
-	
-	
-	@RequestMapping( value="/disable/{id}", method = { RequestMethod.PUT })
-	public void disableUser(@PathVariable("id")Integer id){
-		userService.disableUser(id);
-	}*/
-	
 }
