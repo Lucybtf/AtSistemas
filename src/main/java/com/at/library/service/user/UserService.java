@@ -12,6 +12,7 @@ public interface UserService {
 	/** 
 	 * Crea un usuario
 	 * @throws UserNotFoundException 
+	 * @return UserDTO
 	 **/
 	UserDTO create(UserDTO user) throws UserNotFoundException;
 
@@ -22,58 +23,71 @@ public interface UserService {
 	void delete(Integer id) throws UserNotFoundException;
 	
 	/** 
-	 * Transforma un User a UserDTO
-	 **/
+	 * Transforma User a UserDTO
+	 * @param user
+	 * @return UserDTO
+	 */
 	UserDTO transform(User user);
 	
-	/** 
-	 * Transforma un UserDTO a User
-	 **/
+	/**
+	 * Transforma UserDTO a User
+	 * @param user
+	 * @return User
+	 */
 	User transform(UserDTO user);
 	
 	/**
 	 * Encontrar un usuario por Id
-	 * @throws UserNotFoundException 
+	 * @param id
+	 * @throws UserNotFoundException
+	 * @return Devuelvo un UserDTO 
 	 * */
 	UserDTO findbyId(Integer id) throws UserNotFoundException;
 
 	/**
 	 * Activar un usuario
+	 * @param id
 	 * @throws UserNotFoundException 
 	 * **/
 	void activeUser(Integer id) throws UserNotFoundException;
 	
 	/**
 	 * Desactivar un usuario
+	 * @param id
 	 * @throws UserNotFoundException 
 	 * **/
 	void disableUser(Integer id) throws UserNotFoundException;
-
+	
 	/**
-	 * Buscar el Usuario por Dni
-	 * @param dni
-	 * @return
-	 * @throws UserNotFoundException 
+	 * Castiga a los Usuarios si supera el plazo de alquiler de 30 días
 	 */
-	//UserDTO findbyDni(String dni) throws UserNotFoundException;
-
 	void punishedUser();
 
+	/**
+	 * Perdona a los usuarios si hoy coincide con la fecha de finalización del castigo
+	 */
 	void forgiveUser();
+	
+	/**
+	 *  Transforma a una lista de UserDTOs
+	 * @param findAll
+	 * @return Devuelve una lista de UserDTOs
+	 */
+	List<UserDTO> listUserDTOs(Iterable<User> findAll);
+
+	/**
+	 * Busqueda de Usuarios por name y dni(Si pasa 1, los 2 o ninguno)
+	 * @param page
+	 * @param size
+	 * @param dni
+	 * @param name
+	 * @return Devuelve una lista de UserDTOs
+	 */
+	List<UserDTO> findBy(Integer page, Integer size, String dni, String name);
+	
+	//UserDTO findbyDni(String dni) throws UserNotFoundException;
 
 	//UserDTO findbyName(String name) throws UserNotFoundException;
 
-	//UserDTO findby(String dni, String name);
-
-
-	//List<UserDTO> findBy(String dni, String name);
-
-	List<UserDTO> listUserDTOs(Iterable<User> findAll);
-
-	List<UserDTO> findBy(Integer page, Integer size, String dni, String name);
-
-	
-
-	
 
 }
