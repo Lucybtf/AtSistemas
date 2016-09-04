@@ -10,7 +10,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.at.library.model.Book;
+import com.at.library.model.RentPK;
 import com.at.library.model.User;
+import com.at.library.model.Rent;
 
 @Repository
 public interface UserDao extends CrudRepository<User, Integer> {
@@ -26,5 +28,11 @@ public interface UserDao extends CrudRepository<User, Integer> {
 	
 	@Query("select u from User as u  where u.statususer = 'ACTIVE')")
 	Page<User> findAll(Pageable pageable);
+	
+	@Query("select r from Rent as r  where r.endDate is CURRENT_DATE")
+	List<Rent> findReturnRents();
+	
+	@Query("select u.id from User as u  where u.statususer='PUNISHED'")
+	List<Integer> findUsersPunished();
 	
 }
