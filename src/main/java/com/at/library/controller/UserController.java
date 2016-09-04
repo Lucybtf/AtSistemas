@@ -25,7 +25,7 @@ import com.at.library.model.User;
 import com.at.library.service.user.UserService;
 import com.at.library.exceptions.*;
 
-@ControllerAdvice(basePackages="com.at.library.controller")
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -36,7 +36,7 @@ public class UserController {
 	private UserService userService;
 	
 	
-	@ExceptionHandler(UserNotFoundException.class)
+	//@ExceptionHandler(UserNotFoundException.class)
 	@RequestMapping(value="/{id}" , method = {RequestMethod.GET})
 	public UserDTO findOne(@PathVariable("id")Integer id) throws UserNotFoundException {
 		log.debug(String.format("Buscando el Usuario con el id %s", id));
