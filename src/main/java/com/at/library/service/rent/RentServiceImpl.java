@@ -25,6 +25,7 @@ import com.at.library.enums.StatusBook;
 import com.at.library.enums.StatusEnum;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.EmployeeNotFoundException;
+import com.at.library.exceptions.RentNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Employee;
@@ -117,9 +118,10 @@ public class RentServiceImpl implements RentService {
 	
 	//Devolución de un libro : Buscar el Libro, colocar la fecha 
 	@Override
-	public void delete(Integer idrentbook) {
+	public void delete(Integer idrentbook) throws RentNotFoundException {
 		// TODO Auto-generated method stub
 		final Rent rentend=rentDao.findByBook(idrentbook);
+		if(rentend == null) throw new RentNotFoundException();
 		rentend.setEndDate(new Date());
 		//MIrar si el usuario se ha pasado del numero de días de alquiler y castigarlo en ese caso CRON
 		rentDao.save(rentend);
@@ -132,7 +134,7 @@ public class RentServiceImpl implements RentService {
 		if(page!=null && size!=null)
 			return rentDao.RentsHistory(new PageRequest(page-1,size)).getContent();
 		else
-			return rentDao.RentsHistory(new PageRequest(0,10)).getContent();
+			return rentDao.RentsHistory(new PageRequest(0,100)).getContent();
 	}
 	
 	@Override
@@ -151,32 +153,7 @@ public class RentServiceImpl implements RentService {
 		return (int)days2;
 	}
 	
-	
-	
-	/*@Override
-	public void returnBook(Integer idbook) {
-		// TODO Auto-generated method stub
-		
-		final Rent rent= new Rent();
-		final RentPK rentpk=new RentPK();
-		*/
-		/*final RentDTO r = rentDao.findByBook(idbook);
-		final Employee e=employeeService.transform(employeeService.findbyId(r.getIdEmployee()));
-		final User u=userService.transform(userService.findbyId(r.getIdUser()));
-	
-		
-		log.debug(String.format("El numero de dias de diferencia son: %s", diferenceBetweenDays( new Date(), r.getInitDate())));
-		
-		rentpk.setBook(bookService.transform(bookService.findbyId(idlibro)));
-		rentpk.setInitDate(r.getInitDate());
-		rent.setRentpk(rentpk);
-		rent.setEmployee(e);
-		rent.setUser(u);
-		rent.setEndDate(new Date());*/
-			
-	//	rentDao.save(rent);
-		
-	//}
+
 
 	/*@Override
 	public List<RentDTO> rentBookHistory(Integer idbook) {

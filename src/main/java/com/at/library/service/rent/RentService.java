@@ -9,6 +9,7 @@ import com.at.library.dto.RentDTO;
 import com.at.library.dto.RentPostDTO;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.EmployeeNotFoundException;
+import com.at.library.exceptions.RentNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.model.Book;
 import com.at.library.model.Rent;
@@ -27,8 +28,9 @@ public interface RentService {
 	/**
 	 * Borrar un alquiler dado un id
 	 * @return
+	 * @throws RentNotFoundException 
 	 */
-	void delete(Integer idrentbook);
+	void delete(Integer idrentbook) throws RentNotFoundException;
 
 	
 	Rent transform(RentDTO rent);

@@ -20,6 +20,7 @@ import com.at.library.dto.RentPostDTO;
 import com.at.library.dto.UserDTO;
 import com.at.library.exceptions.BookNotFoundException;
 import com.at.library.exceptions.EmployeeNotFoundException;
+import com.at.library.exceptions.RentNotFoundException;
 import com.at.library.exceptions.UserNotFoundException;
 import com.at.library.service.book.BookService;
 import com.at.library.service.rent.RentService;
@@ -42,7 +43,7 @@ public class RentController {
 	}
 	
 	@RequestMapping(value="/{id}", method = { RequestMethod.DELETE})
-	public void delete(@PathVariable("id")Integer idrent){
+	public void delete(@PathVariable("id")Integer idrent) throws RentNotFoundException{
 		log.debug(String.format("Devolución del Alquiler con el id del Book: %s", idrent));
 		rentService.delete(idrent);
 	}
